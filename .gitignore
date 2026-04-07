@@ -1,0 +1,49 @@
+# ─── Python ───────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+*.so
+.Python
+.venv/
+venv/
+env/
+.env
+.env.local
+.env.*.local
+*.env
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.log
+
+# ─── Node / Frontend ─────────────────────────────────────────
+node_modules/
+apps/web/ui/node_modules/
+apps/web/ui/dist/
+apps/web/ui/.env.local
+apps/web/ui/.env.*.local
+dist/
+.parcel-cache/
+.turbo/
+
+# ─── VS Code ─────────────────────────────────────────────────
+# Keep tasks.json and launch.json (they're checked-in deliberately)
+.vscode/*.log
+
+# ─── OS ──────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Misc ────────────────────────────────────────────────────
+*.swp
+*.bak
+*.tmp
+.idea/

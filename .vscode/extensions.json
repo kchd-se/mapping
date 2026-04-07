@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    // Python
+    "ms-python.python",
+    "ms-python.debugpy",
+    "ms-python.vscode-pylance",
+    // Frontend
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    // General
+    "eamodio.gitlens",
+    "editorconfig.editorconfig"
+  ]
+}

@@ -1,0 +1,11 @@
+# ─────────────────────────────────────────────────────────────
+# Healthcare Data Mapping Tool – Python dependencies
+# ─────────────────────────────────────────────────────────────
+# Runtime
+fastapi>=0.135.0
+uvicorn[standard]>=0.30.0
+pydantic>=2.7.0
+
+# Test
+pytest>=9.0.0
+httpx>=0.27.0       # required by FastAPI TestClient

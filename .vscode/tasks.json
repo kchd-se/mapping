@@ -1,0 +1,145 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    // ── Backend ────────────────────────────────────────────────────────────
+    {
+      "label": "Dev: API",
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": [
+        "-m", "uvicorn",
+        "apps.api.main:create_app",
+        "--factory",
+        "--host", "0.0.0.0",
+        "--port", "8000",
+        "--reload"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": { "PYTHONPATH": "${workspaceFolder}" }
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "uvicorn",
+        "pattern": {
+          "regexp": "ERROR",
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*INFO.*Uvicorn running",
+          "endsPattern": ".*INFO.*Application startup complete"
+        }
+      },
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "dev"
+      }
+    },
+    // ── Frontend ───────────────────────────────────────────────────────────
+    {
+      "label": "Dev: Web UI",
+      "type": "shell",
+      "command": "\"C:\\Program Files\\nodejs\\npm.cmd\" run dev",
+      "options": {
+        "cwd": "${workspaceFolder}/apps/web/ui"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "vite",
+        "pattern": {
+          "regexp": "error",
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*VITE.*",
+          "endsPattern": ".*Local:.*localhost"
+        }
+      },
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "dev"
+      }
+    },
+    // ── Full App (API + Web) ────────────────────────────────────────────────
+    {
+      "label": "Dev: Full App (API + Web)",
+      "dependsOn": ["Dev: API", "Dev: Web UI"],
+      "dependsOrder": "parallel",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always"
+      }
+    },
+    // ── Tests ──────────────────────────────────────────────────────────────
+    {
+      "label": "Test: API",
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["-m", "pytest", "-v"],
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": { "PYTHONPATH": "${workspaceFolder}" }
+      },
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "test"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Test: Web",
+      "type": "shell",
+      "command": "\"C:\\Program Files\\nodejs\\npm.cmd\" run test",
+      "options": {
+        "cwd": "${workspaceFolder}/apps/web/ui"
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "test"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Test: All",
+      "dependsOn": ["Test: API", "Test: Web"],
+      "dependsOrder": "sequence",
+      "group": "test",
+      "presentation": {
+        "reveal": "always"
+      }
+    },
+    // ── Utilities ──────────────────────────────────────────────────────────
+    {
+      "label": "Generate openapi.json",
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["_gen_openapi.py"],
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": { "PYTHONPATH": "${workspaceFolder}" }
+      },
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

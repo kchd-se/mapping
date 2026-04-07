@@ -1,0 +1,1949 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Healthcare Data Mapping Tool API",
+    "description": "\nv1 REST API for the Healthcare Data Mapping Tool.\n\n## Auth (v1 simulated RBAC)\nPass `X-User-Id` and `X-User-Role` headers with every request.\nRoles: `viewer`, `analyst`, `approver`, `admin`.\n\n## Phase scope\n- Schema import + catalog (Phase 3)\n- Mapping suggestions (Phase 4)\n- Mapping validation with configurable policy (Phase 4)\n- Mapping artifact export (Phase 6 script placeholder)\n\n## Out of scope for v1\n- Transformation execution (Phase 6)\n- Patient-level data ingestion (forbidden in v1)\n",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/projects": {
+      "post": {
+        "tags": [
+          "projects"
+        ],
+        "summary": "Create Project",
+        "operationId": "create_project_projects_post",
+        "parameters": [
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "anonymous",
+              "title": "X-User-Id"
+            }
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "viewer",
+              "title": "X-User-Role"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "projects"
+        ],
+        "summary": "List Projects",
+        "operationId": "list_projects_projects_get",
+        "parameters": [
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "anonymous",
+              "title": "X-User-Id"
+            }
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "viewer",
+              "title": "X-User-Role"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProjectResponse"
+                  },
+                  "title": "Response List Projects Projects Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project_id}": {
+      "get": {
+        "tags": [
+          "projects"
+        ],
+        "summary": "Get Project",
+        "operationId": "get_project_projects__project_id__get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "anonymous",
+              "title": "X-User-Id"
+            }
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "viewer",
+              "title": "X-User-Role"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "projects"
+        ],
+        "summary": "Update Project Status",
+        "operationId": "update_project_status_projects__project_id__patch",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "anonymous",
+              "title": "X-User-Id"
+            }
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "viewer",
+              "title": "X-User-Role"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProjectStatusRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project_id}/schemas/source/import": {
+      "post": {
+        "tags": [
+          "schemas"
+        ],
+        "summary": "Import Source Schema",
+        "description": "Import a source schema via the adapter registry, register in catalog, pin to project.",
+        "operationId": "import_source_schema_projects__project_id__schemas_source_import_post",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "anonymous",
+              "title": "X-User-Id"
+            }
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "viewer",
+              "title": "X-User-Role"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImportSourceSchemaRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PinnedSchemaRef"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project_id}/schemas/target/select": {
+      "post": {
+        "tags": [
+          "schemas"
+        ],
+        "summary": "Select Target Schema",
+        "description": "Pin an already-registered catalog schema as the target for this project.",
+        "operationId": "select_target_schema_projects__project_id__schemas_target_select_post",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "anonymous",
+              "title": "X-User-Id"
+            }
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "viewer",
+              "title": "X-User-Role"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SelectTargetSchemaRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PinnedSchemaRef"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project_id}/schemas": {
+      "get": {
+        "tags": [
+          "schemas"
+        ],
+        "summary": "Get Project Schemas",
+        "description": "Return pinned source and target schema references for a project.",
+        "operationId": "get_project_schemas_projects__project_id__schemas_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "anonymous",
+              "title": "X-User-Id"
+            }
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "viewer",
+              "title": "X-User-Role"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectSchemasResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project_id}/suggestions": {
+      "post": {
+        "tags": [
+          "suggestions"
+        ],
+        "summary": "Get Suggestions",
+        "description": "Generate TOP-K mapping suggestions for every target field.\n\nUses pinned source & target schemas — no raw schema parsing here (RL-05).\nNo patient data is accessed (RL-02).",
+        "operationId": "get_suggestions_projects__project_id__suggestions_post",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "anonymous",
+              "title": "X-User-Id"
+            }
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "viewer",
+              "title": "X-User-Role"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SuggestionsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuggestionsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project_id}/mappings": {
+      "post": {
+        "tags": [
+          "mappings"
+        ],
+        "summary": "Create Mapping Version",
+        "operationId": "create_mapping_version_projects__project_id__mappings_post",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "anonymous",
+              "title": "X-User-Id"
+            }
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "viewer",
+              "title": "X-User-Role"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMappingVersionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MappingVersionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "mappings"
+        ],
+        "summary": "List Mapping Versions",
+        "operationId": "list_mapping_versions_projects__project_id__mappings_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "anonymous",
+              "title": "X-User-Id"
+            }
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "viewer",
+              "title": "X-User-Role"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MappingVersionResponse"
+                  },
+                  "title": "Response List Mapping Versions Projects  Project Id  Mappings Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project_id}/mappings/{version_id}": {
+      "get": {
+        "tags": [
+          "mappings"
+        ],
+        "summary": "Get Mapping Version",
+        "operationId": "get_mapping_version_projects__project_id__mappings__version_id__get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "version_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Version Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "anonymous",
+              "title": "X-User-Id"
+            }
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "viewer",
+              "title": "X-User-Role"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MappingVersionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project_id}/validate": {
+      "post": {
+        "tags": [
+          "validation"
+        ],
+        "summary": "Validate Mapping",
+        "description": "Validate a mapping version against pinned schemas with optional policy overrides.",
+        "operationId": "validate_mapping_projects__project_id__validate_post",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "anonymous",
+              "title": "X-User-Id"
+            }
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "viewer",
+              "title": "X-User-Role"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project_id}/export": {
+      "post": {
+        "tags": [
+          "export"
+        ],
+        "summary": "Export Mapping",
+        "description": "Export a mapping artifact as deterministic JSON.\n\nScript generation is a Phase 6 concern.  The transformation_script field\ncontains a clearly-marked placeholder (RL-10, RL-01).",
+        "operationId": "export_mapping_projects__project_id__export_post",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "mapping_version_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Mapping Version Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "anonymous",
+              "title": "X-User-Id"
+            }
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "viewer",
+              "title": "X-User-Role"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/catalog/schemas": {
+      "get": {
+        "tags": [
+          "catalog"
+        ],
+        "summary": "List Catalog Schemas",
+        "description": "Return all schemas registered in the internal catalog. Supports optional filtering by schema type, format ID, approval status, and a case-insensitive substring search on schema name. Results are ordered deterministically: approved before draft, then alphabetically by name, then by created_at ascending.",
+        "operationId": "list_catalog_schemas_catalog_schemas_get",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by schema type: 'custom' or 'standard'.",
+              "title": "Type"
+            },
+            "description": "Filter by schema type: 'custom' or 'standard'."
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by adapter format identifier (e.g. 'json_schema').",
+              "title": "Format"
+            },
+            "description": "Filter by adapter format identifier (e.g. 'json_schema')."
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Case-insensitive substring search on schema name.",
+              "title": "Q"
+            },
+            "description": "Case-insensitive substring search on schema name."
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by approval status: 'draft' or 'approved'.",
+              "title": "Status"
+            },
+            "description": "Filter by approval status: 'draft' or 'approved'."
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "anonymous",
+              "title": "X-User-Id"
+            }
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "viewer",
+              "title": "X-User-Role"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CatalogSchemaResponse"
+                  },
+                  "title": "Response List Catalog Schemas Catalog Schemas Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/catalog/schemas/{schema_id}/versions": {
+      "get": {
+        "tags": [
+          "catalog"
+        ],
+        "summary": "List Schema Versions",
+        "description": "Return all registered versions for a catalog schema. Results are ordered by registration sequence (oldest first).",
+        "operationId": "list_schema_versions_catalog_schemas__schema_id__versions_get",
+        "parameters": [
+          {
+            "name": "schema_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Schema Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "anonymous",
+              "title": "X-User-Id"
+            }
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "viewer",
+              "title": "X-User-Role"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CatalogVersionResponse"
+                  },
+                  "title": "Response List Schema Versions Catalog Schemas  Schema Id  Versions Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CatalogSchemaResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Schema identifier in the catalog."
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "format_id": {
+            "type": "string",
+            "title": "Format Id",
+            "description": "Open adapter format identifier."
+          },
+          "schema_type": {
+            "type": "string",
+            "title": "Schema Type",
+            "description": "'custom' or 'standard'."
+          },
+          "approval_status": {
+            "type": "string",
+            "title": "Approval Status",
+            "description": "'draft' or 'approved'."
+          },
+          "owner": {
+            "type": "string",
+            "title": "Owner"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "latest_version_label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Version Label",
+            "description": "Version label of the most recently registered version."
+          },
+          "available_versions_count": {
+            "type": "integer",
+            "title": "Available Versions Count",
+            "description": "Total number of registered versions for this schema."
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "metadata_tags": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Metadata Tags"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "format_id",
+          "schema_type",
+          "approval_status",
+          "owner",
+          "description",
+          "available_versions_count",
+          "created_at"
+        ],
+        "title": "CatalogSchemaResponse",
+        "description": "Summary descriptor for a catalog entry returned by GET /catalog/schemas."
+      },
+      "CatalogVersionResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Version UUID."
+          },
+          "schema_id": {
+            "type": "string",
+            "title": "Schema Id"
+          },
+          "version_label": {
+            "type": "string",
+            "title": "Version Label"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "checksum": {
+            "type": "string",
+            "title": "Checksum",
+            "description": "SHA-256 content fingerprint. Identical schemas always share the same checksum regardless of when or where they were registered."
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "schema_id",
+          "version_label",
+          "created_at",
+          "checksum",
+          "notes"
+        ],
+        "title": "CatalogVersionResponse",
+        "description": "Version summary returned by GET /catalog/schemas/{id}/versions."
+      },
+      "CreateMappingVersionRequest": {
+        "properties": {
+          "version_label": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Version Label"
+          },
+          "rules": {
+            "items": {
+              "$ref": "#/components/schemas/MappingRuleDTO"
+            },
+            "type": "array",
+            "title": "Rules"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "version_label",
+          "rules"
+        ],
+        "title": "CreateMappingVersionRequest"
+      },
+      "CreateProjectRequest": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "sensitivity": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sensitivity",
+            "default": "healthcare_highly_sensitive"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "CreateProjectRequest"
+      },
+      "ExportResponse": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          },
+          "mapping_version_id": {
+            "type": "string",
+            "title": "Mapping Version Id"
+          },
+          "artifact_json": {
+            "type": "string",
+            "title": "Artifact Json",
+            "description": "Deterministic JSON export of the mapping artifact."
+          },
+          "transformation_script": {
+            "type": "string",
+            "title": "Transformation Script",
+            "description": "Placeholder. Script generation will be implemented in Phase 6.",
+            "default": "TODO: Phase 6 — script generation not yet implemented."
+          }
+        },
+        "type": "object",
+        "required": [
+          "project_id",
+          "mapping_version_id",
+          "artifact_json"
+        ],
+        "title": "ExportResponse"
+      },
+      "FieldSuggestionsDTO": {
+        "properties": {
+          "target_field_id": {
+            "type": "string",
+            "title": "Target Field Id"
+          },
+          "target_field_path": {
+            "type": "string",
+            "title": "Target Field Path"
+          },
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/SuggestionCandidateDTO"
+            },
+            "type": "array",
+            "title": "Candidates"
+          }
+        },
+        "type": "object",
+        "required": [
+          "target_field_id",
+          "target_field_path",
+          "candidates"
+        ],
+        "title": "FieldSuggestionsDTO"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "ImportSourceSchemaRequest": {
+        "properties": {
+          "format_id": {
+            "type": "string",
+            "title": "Format Id",
+            "description": "Adapter format identifier. Examples: 'json_schema', 'csv_schema'. Open string — no hardcoded list."
+          },
+          "schema_name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Schema Name"
+          },
+          "version_label": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Version Label"
+          },
+          "schema_payload": {
+            "title": "Schema Payload",
+            "description": "Raw schema payload to parse. Shape depends on format_id: JSON object for json_schema, CSV string or list-of-dicts for csv_schema."
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "format_id",
+          "schema_name",
+          "version_label",
+          "schema_payload"
+        ],
+        "title": "ImportSourceSchemaRequest"
+      },
+      "MappingRuleDTO": {
+        "properties": {
+          "target_field_id": {
+            "type": "string",
+            "title": "Target Field Id"
+          },
+          "source_field_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Field Ids"
+          },
+          "transform": {
+            "$ref": "#/components/schemas/TransformHintDTO"
+          },
+          "default_value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Value"
+          },
+          "constant_value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Constant Value"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "target_field_id"
+        ],
+        "title": "MappingRuleDTO"
+      },
+      "MappingVersionResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          },
+          "version_label": {
+            "type": "string",
+            "title": "Version Label"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "rule_count": {
+            "type": "integer",
+            "title": "Rule Count"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "project_id",
+          "version_label",
+          "created_at",
+          "rule_count",
+          "notes"
+        ],
+        "title": "MappingVersionResponse"
+      },
+      "PinnedSchemaRef": {
+        "properties": {
+          "pin_id": {
+            "type": "string",
+            "title": "Pin Id"
+          },
+          "schema_id": {
+            "type": "string",
+            "title": "Schema Id"
+          },
+          "version_label": {
+            "type": "string",
+            "title": "Version Label"
+          },
+          "schema_name": {
+            "type": "string",
+            "title": "Schema Name"
+          },
+          "format_id": {
+            "type": "string",
+            "title": "Format Id"
+          },
+          "field_count": {
+            "type": "integer",
+            "title": "Field Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "pin_id",
+          "schema_id",
+          "version_label",
+          "schema_name",
+          "format_id",
+          "field_count"
+        ],
+        "title": "PinnedSchemaRef"
+      },
+      "ProjectResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "owner": {
+            "type": "string",
+            "title": "Owner"
+          },
+          "sensitivity": {
+            "type": "string",
+            "title": "Sensitivity"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "description",
+          "status",
+          "owner",
+          "sensitivity",
+          "created_at"
+        ],
+        "title": "ProjectResponse"
+      },
+      "ProjectSchemasResponse": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PinnedSchemaRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "target": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PinnedSchemaRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "project_id",
+          "source",
+          "target"
+        ],
+        "title": "ProjectSchemasResponse"
+      },
+      "SelectTargetSchemaRequest": {
+        "properties": {
+          "schema_id": {
+            "type": "string",
+            "title": "Schema Id",
+            "description": "Catalog schema_id of the schema to pin as target."
+          },
+          "version_label": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Version Label"
+          }
+        },
+        "type": "object",
+        "required": [
+          "schema_id",
+          "version_label"
+        ],
+        "title": "SelectTargetSchemaRequest"
+      },
+      "SeverityOverride": {
+        "properties": {
+          "rule_id": {
+            "type": "string",
+            "title": "Rule Id"
+          },
+          "severity": {
+            "type": "string",
+            "title": "Severity",
+            "description": "error | warn | info"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rule_id",
+          "severity"
+        ],
+        "title": "SeverityOverride"
+      },
+      "SuggestionCandidateDTO": {
+        "properties": {
+          "source_field_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Field Ids"
+          },
+          "confidence": {
+            "type": "number",
+            "title": "Confidence"
+          },
+          "reasons": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Reasons"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "type": "object",
+        "required": [
+          "source_field_ids",
+          "confidence",
+          "reasons",
+          "warnings"
+        ],
+        "title": "SuggestionCandidateDTO"
+      },
+      "SuggestionsRequest": {
+        "properties": {
+          "top_k": {
+            "type": "integer",
+            "maximum": 50.0,
+            "minimum": 1.0,
+            "title": "Top K",
+            "default": 5
+          },
+          "min_confidence": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Min Confidence",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "title": "SuggestionsRequest"
+      },
+      "SuggestionsResponse": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          },
+          "source_schema_id": {
+            "type": "string",
+            "title": "Source Schema Id"
+          },
+          "target_schema_id": {
+            "type": "string",
+            "title": "Target Schema Id"
+          },
+          "field_suggestions": {
+            "items": {
+              "$ref": "#/components/schemas/FieldSuggestionsDTO"
+            },
+            "type": "array",
+            "title": "Field Suggestions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "project_id",
+          "source_schema_id",
+          "target_schema_id",
+          "field_suggestions"
+        ],
+        "title": "SuggestionsResponse"
+      },
+      "TransformHintDTO": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "title": "Kind",
+            "default": "direct"
+          },
+          "expression": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expression"
+          }
+        },
+        "type": "object",
+        "title": "TransformHintDTO"
+      },
+      "UpdateProjectStatusRequest": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Target status. Allowed: review, approved, published, archived"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "UpdateProjectStatusRequest"
+      },
+      "ValidateRequest": {
+        "properties": {
+          "mapping_version_id": {
+            "type": "string",
+            "title": "Mapping Version Id"
+          },
+          "severity_overrides": {
+            "items": {
+              "$ref": "#/components/schemas/SeverityOverride"
+            },
+            "type": "array",
+            "title": "Severity Overrides"
+          }
+        },
+        "type": "object",
+        "required": [
+          "mapping_version_id"
+        ],
+        "title": "ValidateRequest"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "ValidationIssueDTO": {
+        "properties": {
+          "rule_id": {
+            "type": "string",
+            "title": "Rule Id"
+          },
+          "severity": {
+            "type": "string",
+            "title": "Severity"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "affected_field_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Affected Field Ids"
+          },
+          "affected_field_paths": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Affected Field Paths"
+          },
+          "remediation_hint": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Remediation Hint"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rule_id",
+          "severity",
+          "message",
+          "affected_field_ids",
+          "affected_field_paths",
+          "remediation_hint"
+        ],
+        "title": "ValidationIssueDTO"
+      },
+      "ValidationResponse": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          },
+          "mapping_version_id": {
+            "type": "string",
+            "title": "Mapping Version Id"
+          },
+          "has_errors": {
+            "type": "boolean",
+            "title": "Has Errors"
+          },
+          "error_count": {
+            "type": "integer",
+            "title": "Error Count"
+          },
+          "warning_count": {
+            "type": "integer",
+            "title": "Warning Count"
+          },
+          "issues": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationIssueDTO"
+            },
+            "type": "array",
+            "title": "Issues"
+          }
+        },
+        "type": "object",
+        "required": [
+          "project_id",
+          "mapping_version_id",
+          "has_errors",
+          "error_count",
+          "warning_count",
+          "issues"
+        ],
+        "title": "ValidationResponse"
+      }
+    }
+  }
+}

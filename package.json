@@ -1,0 +1,20 @@
+{
+  "name": "healthcare-data-mapping-tool",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Healthcare Data Mapping Tool – schema-only v1. No transformation execution. No patient data.",
+  "scripts": {
+    "dev": "concurrently --kill-others --names \"API,WEB\" --prefix-colors \"cyan,magenta\" \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:api": "python -m uvicorn apps.api.main:create_app --factory --host 0.0.0.0 --port 8000 --reload",
+    "dev:web": "npm --prefix apps/web/ui run dev",
+    "build": "npm --prefix apps/web/ui run build",
+    "test": "npm run test:api && npm run test:web",
+    "test:api": "python -m pytest apps/api/tests packages/core/tests packages/adapters/tests packages/catalog/tests packages/suggestions/tests packages/validation/tests -v",
+    "test:web": "npm --prefix apps/web/ui run test",
+    "test:web:watch": "npm --prefix apps/web/ui run test:watch",
+    "openapi": "python _gen_openapi.py"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
