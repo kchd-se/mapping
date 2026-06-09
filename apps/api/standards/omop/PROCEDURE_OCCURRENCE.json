@@ -1,0 +1,142 @@
+{
+  "schema_name": "OMOP_PROCEDURE_OCCURRENCE",
+  "format_id": "omop_cdm",
+  "version": "5.4",
+  "description": "OMOP CDM v5.4 PROCEDURE_OCCURRENCE table — records of activities or processes ordered or carried out by a healthcare provider for the purposes of diagnosing or treating a patient.",
+  "metadata_tags": {
+    "source": "bundled",
+    "standard": "OMOP CDM",
+    "standard_version": "5.4",
+    "table": "PROCEDURE_OCCURRENCE"
+  },
+  "fields": [
+    {
+      "path": "procedure_occurrence.procedure_occurrence_id",
+      "label": "Procedure Occurrence ID",
+      "description": "A system-generated unique identifier for each procedure occurrence.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "procedure_occurrence.person_id",
+      "label": "Person ID",
+      "description": "A foreign key identifier to the person who is subjected to the procedure. The demographic details of that person are stored in the PERSON table.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "procedure_occurrence.procedure_concept_id",
+      "label": "Procedure Concept ID",
+      "description": "A foreign key that refers to a standard procedure concept identifier in the Standardized Vocabularies.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "procedure_occurrence.procedure_date",
+      "label": "Procedure Date",
+      "description": "The date on which the procedure was performed.",
+      "type_category": "primitive",
+      "type_primitive": "date",
+      "required": true
+    },
+    {
+      "path": "procedure_occurrence.procedure_datetime",
+      "label": "Procedure Datetime",
+      "description": "The date and time on which the procedure was performed.",
+      "type_category": "primitive",
+      "type_primitive": "datetime",
+      "required": false
+    },
+    {
+      "path": "procedure_occurrence.procedure_end_date",
+      "label": "Procedure End Date",
+      "description": "The date on which the procedure finished.",
+      "type_category": "primitive",
+      "type_primitive": "date",
+      "required": false
+    },
+    {
+      "path": "procedure_occurrence.procedure_end_datetime",
+      "label": "Procedure End Datetime",
+      "description": "The date and time on which the procedure finished.",
+      "type_category": "primitive",
+      "type_primitive": "datetime",
+      "required": false
+    },
+    {
+      "path": "procedure_occurrence.procedure_type_concept_id",
+      "label": "Procedure Type Concept ID",
+      "description": "A foreign key to the predefined concept identifier in the Standardized Vocabularies reflecting the type of source data from which the procedure record is derived.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "procedure_occurrence.modifier_concept_id",
+      "label": "Modifier Concept ID",
+      "description": "A foreign key to a standard concept identifier for a modifier to the procedure (e.g. bilateral).",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "procedure_occurrence.quantity",
+      "label": "Quantity",
+      "description": "The quantity of procedures ordered or administered.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "procedure_occurrence.provider_id",
+      "label": "Provider ID",
+      "description": "A foreign key to the provider in the provider table who was responsible for carrying out the procedure.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "procedure_occurrence.visit_occurrence_id",
+      "label": "Visit Occurrence ID",
+      "description": "A foreign key to the visit in the visit_occurrence table during which the procedure was carried out.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "procedure_occurrence.visit_detail_id",
+      "label": "Visit Detail ID",
+      "description": "A foreign key to the visit in the visit_detail table during which the procedure was carried out.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "procedure_occurrence.procedure_source_value",
+      "label": "Procedure Source Value",
+      "description": "The source code for the procedure as it appears in the source data. This code is mapped to a standard procedure concept in the Standardized Vocabularies and the original code is stored here for reference.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "procedure_occurrence.procedure_source_concept_id",
+      "label": "Procedure Source Concept ID",
+      "description": "A foreign key to a procedure concept that refers to the code used in the source.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "procedure_occurrence.modifier_source_value",
+      "label": "Modifier Source Value",
+      "description": "The source code for the qualifier as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "schema_name": "OMOP_CARE_SITE",
+  "format_id": "omop_cdm",
+  "version": "5.4",
+  "description": "OMOP CDM v5.4 CARE_SITE table — unique identifiers for each location where healthcare delivery is practiced.",
+  "metadata_tags": {
+    "source": "bundled",
+    "standard": "OMOP CDM",
+    "standard_version": "5.4",
+    "table": "CARE_SITE"
+  },
+  "fields": [
+    {
+      "path": "care_site.care_site_id",
+      "label": "Care Site ID",
+      "description": "A unique identifier for each care site.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "care_site.care_site_name",
+      "label": "Care Site Name",
+      "description": "The verbatim description or name of the care site as in data source.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "care_site.place_of_service_concept_id",
+      "label": "Place of Service Concept ID",
+      "description": "A foreign key that refers to a place of service concept identifier in the Standardized Vocabularies.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "care_site.location_id",
+      "label": "Location ID",
+      "description": "A foreign key to the geographic location of the administrative offices of the organization in the location table.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "care_site.care_site_source_value",
+      "label": "Care Site Source Value",
+      "description": "The identifier for the care site in the source data, stored here for reference.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "care_site.place_of_service_source_value",
+      "label": "Place of Service Source Value",
+      "description": "The source code for the place of service as it appears in the source data, stored here for reference.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    }
+  ]
+}

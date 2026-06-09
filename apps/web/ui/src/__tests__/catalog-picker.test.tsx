@@ -26,8 +26,68 @@ describe("CatalogPicker", () => {
     vi.restoreAllMocks();
   });
 
-  // ── 1. Catalog list renders schema names ─────────────────────────────────
-  it("renders catalog schema names from API response", async () => {
+  // ── 1. Standard bundle cards are rendered ────────────────────────────────
+  it("renders standard bundle cards for FHIR R4 and OMOP CDM", async () => {
+    const schemas = fixtures.catalogSchemas();
+    mockRoute("GET", /\/catalog\/schemas/, schemas);
+    renderTargetPicker();
+
+    await waitFor(() => {
+      // Bundle cards are shown with accessible labels
+      expect(
+        screen.getByRole("button", { name: /Select FHIR R4 standard/i }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: /Select OMOP CDM 5\.4 standard/i }),
+      ).toBeInTheDocument();
+    });
+  });
+
+  // ── 2. Bundle cards show included profiles/tables ───────────────────────
+  it("shows included profiles inside the FHIR R4 bundle card", async () => {
+    const schemas = fixtures.catalogSchemas();
+    mockRoute("GET", /\/catalog\/schemas/, schemas);
+    renderTargetPicker();
+
+    // Wait for the FHIR R4 bundle card to appear
+    const fhirCard = await screen.findByRole("button", {
+      name: /Select FHIR R4 standard/i,
+    });
+
+    // The card text content should include all profile names (FHIR_ prefix stripped)
+    expect(fhirCard).toHaveTextContent("Patient");
+    expect(fhirCard).toHaveTextContent("Organization");
+    expect(fhirCard).toHaveTextContent("Encounter");
+  });
+
+  // ── 3. Selecting a bundle pins it with one click (no version picker) ─────
+  it("pins standard bundle directly without a version picker", async () => {
+    const user = userEvent.setup();
+    const schemas = fixtures.catalogSchemas();
+    const pinnedRef = fixtures.schemas().target!;
+
+    mockRoute("GET", /\/catalog\/schemas(\?|$)/, schemas);
+    mockRoute("POST", /\/schemas\/target\/select/, pinnedRef, 201);
+    renderTargetPicker();
+    mockRoute("GET", /\/projects\/proj-001\/schemas/, {
+      project_id: PROJECT_ID,
+      source: null,
+      target: pinnedRef,
+    });
+
+    const fhirCard = await screen.findByRole("button", {
+      name: /Select FHIR R4 standard/i,
+    });
+
+    await user.click(fhirCard);
+
+    await waitFor(() => {
+      expect(screen.getByText("Target schema pinned")).toBeInTheDocument();
+    });
+  });
+
+  // ── 4. Catalog list renders individual schema names ───────────────────────
+  it("renders individual catalog schema names from API response", async () => {
     const schemas = fixtures.catalogSchemas();
     mockRoute("GET", /\/catalog\/schemas/, schemas);
     renderTargetPicker();
@@ -44,7 +104,23 @@ describe("CatalogPicker", () => {
     });
   });
 
-  // ── 2. Typing in search field sends q param ──────────────────────────────
+  // ── 5. Bundle schemas are NOT in the individual list ─────────────────────
+  it("does NOT show bundle schemas in the individual schema list", async () => {
+    const schemas = fixtures.catalogSchemas();
+    mockRoute("GET", /\/catalog\/schemas/, schemas);
+    renderTargetPicker();
+
+    await waitFor(() =>
+      screen.getByText("OMOP CDM Person"),
+    );
+
+    // Bundle schema names must not appear as link/button text in the individual list
+    // (they appear only in the standard-card aria-labels, not as bare text nodes)
+    expect(screen.queryByText("FHIR_R4")).not.toBeInTheDocument();
+    expect(screen.queryByText("OMOP_CDM_5_4")).not.toBeInTheDocument();
+  });
+
+  // ── 6. Typing in search field sends q param ──────────────────────────────
   it("filters catalog by q param when user types in search box", async () => {
     const user = userEvent.setup();
     const allSchemas = fixtures.catalogSchemas();
@@ -71,8 +147,8 @@ describe("CatalogPicker", () => {
     });
   });
 
-  // ── 3. Clicking a schema triggers versions fetch ─────────────────────────
-  it("fetches versions when a schema is selected", async () => {
+  // ── 7. Clicking an individual schema triggers versions fetch ───────────
+  it("fetches versions when an individual schema is selected", async () => {
     const user = userEvent.setup();
     const schemas = fixtures.catalogSchemas();
     const versions = fixtures.catalogVersions("cat-001");
@@ -94,7 +170,7 @@ describe("CatalogPicker", () => {
     });
   });
 
-  // ── 4. Selecting a version + confirming triggers POST target/select ───────
+  // ── 8. Selecting version + confirming triggers POST target/select ────────
   it("calls POST /target/select when version is chosen and confirmed", async () => {
     const user = userEvent.setup();
     const schemas = fixtures.catalogSchemas();
@@ -143,7 +219,7 @@ describe("CatalogPicker", () => {
     });
   });
 
-  // ── 5. 401 from catalog list shows "Not authenticated" ───────────────────
+  // ── 9. 401 from catalog list shows "Not authenticated" ───────────────────
   it('shows "Not authenticated" when catalog list returns 401', async () => {
     mockRoute("GET", /\/catalog\/schemas/, { detail: "Not authenticated" }, 401);
 

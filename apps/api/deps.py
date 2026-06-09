@@ -37,3 +37,7 @@ def projects_dep() -> Dict[str, MappingProject]:
 
 def mapping_versions_dep() -> Dict[str, List[MappingVersion]]:
     return state.get_mapping_versions()
+
+
+def semantic_provider_dep() -> object:
+    return state.get_semantic_provider()

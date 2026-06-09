@@ -1,0 +1,102 @@
+{
+  "schema_name": "OMOP_LOCATION",
+  "format_id": "omop_cdm",
+  "version": "5.4",
+  "description": "OMOP CDM v5.4 LOCATION table — a uniquely identified geographic location. The main purpose of the Location table is to represent the address information of Persons and Care Sites.",
+  "metadata_tags": {
+    "source": "bundled",
+    "standard": "OMOP CDM",
+    "standard_version": "5.4",
+    "table": "LOCATION"
+  },
+  "fields": [
+    {
+      "path": "location.location_id",
+      "label": "Location ID",
+      "description": "A unique identifier for each geographic location.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "location.address_1",
+      "label": "Address 1",
+      "description": "The address field 1, typically used for the street address, as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "location.address_2",
+      "label": "Address 2",
+      "description": "The address field 2, typically used for additional detail such as building, suite, floor, as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "location.city",
+      "label": "City",
+      "description": "The city field as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "location.state",
+      "label": "State",
+      "description": "The state field as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "location.zip",
+      "label": "Zip",
+      "description": "The zip or postal code.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "location.county",
+      "label": "County",
+      "description": "The county as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "location.country",
+      "label": "Country",
+      "description": "The country as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "location.location_source_value",
+      "label": "Location Source Value",
+      "description": "The verbatim information that is used to uniquely identify the location as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "location.latitude",
+      "label": "Latitude",
+      "description": "The geocoded latitude of the location.",
+      "type_category": "primitive",
+      "type_primitive": "decimal",
+      "required": false
+    },
+    {
+      "path": "location.longitude",
+      "label": "Longitude",
+      "description": "The geocoded longitude of the location.",
+      "type_category": "primitive",
+      "type_primitive": "decimal",
+      "required": false
+    }
+  ]
+}

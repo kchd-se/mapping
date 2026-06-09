@@ -9,7 +9,7 @@ import { ProjectMapping } from "@/components/project/project-mapping";
 import { ProjectValidation } from "@/components/project/project-validation";
 import { ProjectExport } from "@/components/project/project-export";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Database, ActivitySquare, CheckCircle, Code2, AlertTriangle } from "lucide-react";
+import { Database, ActivitySquare, CheckCircle, Code2, AlertTriangle, Loader2 } from "lucide-react";
 import { format } from "date-fns";
 
 export function ProjectDetail() {
@@ -72,8 +72,9 @@ export function ProjectDetail() {
         
         <div className="flex items-center gap-3 bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
           <span className="text-sm font-semibold text-slate-700 pl-1">Status</span>
+          {updateStatus.isPending && <Loader2 className="w-4 h-4 text-slate-400 animate-spin" />}
           <Select value={project.status} onValueChange={handleStatusChange} disabled={updateStatus.isPending}>
-            <SelectTrigger className="w-[140px] font-medium bg-slate-50">
+            <SelectTrigger className="w-35 font-medium bg-slate-50">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -89,20 +90,36 @@ export function ProjectDetail() {
 
       <Tabs defaultValue="schemas" className="w-full">
         <TabsList className="grid w-full grid-cols-4 max-w-3xl mb-8 p-1 bg-slate-100/80 h-auto">
-          <TabsTrigger value="schemas" className="py-2.5 data-[state=active]:shadow-sm">
-            <Database className="w-4 h-4 mr-2 opacity-70" /> 1. Schemas
+          <TabsTrigger value="schemas" className="py-2.5 data-[state=active]:shadow-sm flex-col gap-0.5 h-auto">
+            <div className="flex items-center gap-1.5">
+              <Database className="w-4 h-4 opacity-70" />
+              <span>1. Schemas</span>
+            </div>
+            <span className="text-[10px] font-normal opacity-60 hidden sm:block">Import source &amp; target</span>
           </TabsTrigger>
-          <TabsTrigger value="mapping" className="py-2.5 data-[state=active]:shadow-sm">
-            <ActivitySquare className="w-4 h-4 mr-2 opacity-70" /> 2. Map Fields
+          <TabsTrigger value="mapping" className="py-2.5 data-[state=active]:shadow-sm flex-col gap-0.5 h-auto">
+            <div className="flex items-center gap-1.5">
+              <ActivitySquare className="w-4 h-4 opacity-70" />
+              <span>2. Map Fields</span>
+            </div>
+            <span className="text-[10px] font-normal opacity-60 hidden sm:block">AI suggestions &amp; overrides</span>
           </TabsTrigger>
-          <TabsTrigger value="validation" className="py-2.5 data-[state=active]:shadow-sm">
-            <CheckCircle className="w-4 h-4 mr-2 opacity-70" /> 3. Validate
+          <TabsTrigger value="validation" className="py-2.5 data-[state=active]:shadow-sm flex-col gap-0.5 h-auto">
+            <div className="flex items-center gap-1.5">
+              <CheckCircle className="w-4 h-4 opacity-70" />
+              <span>3. Validate</span>
+            </div>
+            <span className="text-[10px] font-normal opacity-60 hidden sm:block">Quality gates</span>
           </TabsTrigger>
-          <TabsTrigger value="export" className="py-2.5 data-[state=active]:shadow-sm">
-            <Code2 className="w-4 h-4 mr-2 opacity-70" /> 4. Export
+          <TabsTrigger value="export" className="py-2.5 data-[state=active]:shadow-sm flex-col gap-0.5 h-auto">
+            <div className="flex items-center gap-1.5">
+              <Code2 className="w-4 h-4 opacity-70" />
+              <span>4. Export</span>
+            </div>
+            <span className="text-[10px] font-normal opacity-60 hidden sm:block">Artifact &amp; script</span>
           </TabsTrigger>
         </TabsList>
-        <div className="mt-6 bg-white rounded-xl shadow-sm border border-slate-200 p-6 min-h-[500px]">
+        <div className="mt-6 bg-white rounded-xl shadow-sm border border-slate-200 p-6 min-h-125">
           <TabsContent value="schemas" className="mt-0 focus-visible:outline-none">
             <ProjectSchemas projectId={id} />
           </TabsContent>

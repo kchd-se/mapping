@@ -1,0 +1,158 @@
+{
+  "schema_name": "FHIR_Observation",
+  "format_id": "fhir_profile",
+  "version": "R4",
+  "description": "FHIR R4 Observation resource — measurements and simple assertions made about a patient, device or other subject. Covers lab results, vital signs, and clinical findings.",
+  "metadata_tags": {
+    "source": "bundled",
+    "standard": "FHIR",
+    "standard_version": "R4",
+    "resource": "Observation"
+  },
+  "fields": [
+    {
+      "path": "Observation.id",
+      "label": "Resource ID",
+      "description": "The logical id of the resource, as used in the URL for the resource.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Observation.identifier",
+      "label": "Identifier",
+      "description": "A unique identifier assigned to this observation.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Observation.status",
+      "label": "Status",
+      "description": "The status of the result value. Values: registered | preliminary | final | amended | corrected | cancelled | entered-in-error | unknown.",
+      "type_category": "primitive",
+      "type_primitive": "code",
+      "required": true
+    },
+    {
+      "path": "Observation.category",
+      "label": "Category",
+      "description": "A code that classifies the general type of observation being made. e.g. vital-signs | laboratory | imaging | exam | survey | therapy | activity.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Observation.code",
+      "label": "Code",
+      "description": "Describes what was observed. Sometimes called 'Name'. Coded using LOINC or SNOMED CT.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": true
+    },
+    {
+      "path": "Observation.subject",
+      "label": "Subject",
+      "description": "The patient, or group of patients, location, device, organization, procedure or practitioner this observation is about.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Observation.encounter",
+      "label": "Encounter",
+      "description": "The healthcare event (e.g. a patient and healthcare provider interaction) during which this observation is made.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Observation.effectiveDateTime",
+      "label": "Effective Date Time",
+      "description": "The time or time-period the observed value is asserted as being true.",
+      "type_category": "primitive",
+      "type_primitive": "datetime",
+      "required": false
+    },
+    {
+      "path": "Observation.issued",
+      "label": "Issued",
+      "description": "The date and time this version of the observation was made available to providers.",
+      "type_category": "primitive",
+      "type_primitive": "datetime",
+      "required": false
+    },
+    {
+      "path": "Observation.performer",
+      "label": "Performer",
+      "description": "Who was responsible for asserting the observed value as 'true'.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Observation.valueQuantity",
+      "label": "Value Quantity",
+      "description": "The information determined as a result of making the observation — numeric value with unit (e.g. 98.6 degF, 7.2 g/dL).",
+      "type_category": "primitive",
+      "type_primitive": "decimal",
+      "required": false
+    },
+    {
+      "path": "Observation.valueString",
+      "label": "Value String",
+      "description": "The information determined as a result of making the observation — free text.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Observation.valueCodeableConcept",
+      "label": "Value Codeable Concept",
+      "description": "The information determined as a result of making the observation — coded value.",
+      "type_category": "primitive",
+      "type_primitive": "code",
+      "required": false
+    },
+    {
+      "path": "Observation.dataAbsentReason",
+      "label": "Data Absent Reason",
+      "description": "Provides a reason why the expected value in the element Observation.value[x] is missing.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Observation.interpretation",
+      "label": "Interpretation",
+      "description": "A categorical assessment of an observation value. e.g. High, Low, Normal.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Observation.note",
+      "label": "Note",
+      "description": "Comments about the observation or the results.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Observation.referenceRange",
+      "label": "Reference Range",
+      "description": "Guidance on how to interpret the value by comparison to a normal or recommended range.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Observation.component",
+      "label": "Component",
+      "description": "Some observations have multiple component observations. These component observations are expressed as separate code value pairs that share the same attributes.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    }
+  ]
+}

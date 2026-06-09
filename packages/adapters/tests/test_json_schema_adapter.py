@@ -95,7 +95,7 @@ class TestFlatSchema:
 
 
 class TestNestedObjects:
-    def test_nested_object_emits_object_and_child_fields(self, adapter):
+    def test_nested_object_emits_only_leaf_fields(self, adapter):
         schema = adapter.parse(
             {
                 "type": "object",
@@ -112,11 +112,10 @@ class TestNestedObjects:
             }
         )
         paths = {f.path for f in schema.fields}
-        assert "address" in paths
+        # Container 'address' must NOT appear — only its leaf children.
+        assert "address" not in paths
         assert "address.street" in paths
         assert "address.city" in paths
-        addr_field = next(f for f in schema.fields if f.path == "address")
-        assert addr_field.field_type.category == FieldTypeCategory.OBJECT
 
     def test_nested_required_propagates(self, adapter):
         schema = adapter.parse(
@@ -158,8 +157,9 @@ class TestNestedObjects:
             }
         )
         paths = {f.path for f in schema.fields}
-        assert "a" in paths
-        assert "a.b" in paths
+        # Intermediate containers must NOT appear — only the deep leaf.
+        assert "a" not in paths
+        assert "a.b" not in paths
         assert "a.b.c" in paths
 
 
@@ -192,7 +192,7 @@ class TestArrayFields:
         f = next(f for f in schema.fields if f.path == "codes")
         assert f.cardinality.min_occurs == 1
 
-    def test_array_of_objects_items_type_is_object(self, adapter):
+    def test_array_of_objects_recurses_into_item_fields(self, adapter):
         schema = adapter.parse(
             {
                 "type": "object",
@@ -207,9 +207,12 @@ class TestArrayFields:
                 },
             }
         )
-        f = next(f for f in schema.fields if f.path == "contacts")
-        assert f.field_type.category == FieldTypeCategory.ARRAY
-        assert f.field_type.items_type.category == FieldTypeCategory.OBJECT
+        paths = {f.path for f in schema.fields}
+        # Array container must NOT appear — only its item leaf fields.
+        assert "contacts" not in paths
+        assert "contacts.phone" in paths
+        phone_field = next(f for f in schema.fields if f.path == "contacts.phone")
+        assert phone_field.field_type.category == FieldTypeCategory.PRIMITIVE
 
 
 class TestConstraints:
@@ -284,7 +287,8 @@ class TestRefResolution:
             }
         )
         paths = {f.path for f in schema.fields}
-        assert "name" in paths
+        # Container 'name' must NOT appear — only leaf children.
+        assert "name" not in paths
         assert "name.given" in paths
         assert "name.family" in paths
 

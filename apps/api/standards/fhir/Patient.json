@@ -1,0 +1,134 @@
+{
+  "schema_name": "FHIR_Patient",
+  "format_id": "fhir_profile",
+  "version": "R4",
+  "description": "FHIR R4 Patient resource — demographics and other administrative information about an individual or animal receiving care or other health-related services.",
+  "metadata_tags": {
+    "source": "bundled",
+    "standard": "FHIR",
+    "standard_version": "R4",
+    "resource": "Patient"
+  },
+  "fields": [
+    {
+      "path": "Patient.id",
+      "label": "Resource ID",
+      "description": "The logical id of the resource, as used in the URL for the resource.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Patient.identifier",
+      "label": "Identifier",
+      "description": "An identifier for this patient. Business identifier such as MRN.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Patient.active",
+      "label": "Active",
+      "description": "Whether this patient record is in active use. Many systems use this property to mark as non-current patients.",
+      "type_category": "primitive",
+      "type_primitive": "boolean",
+      "required": false
+    },
+    {
+      "path": "Patient.name",
+      "label": "Name",
+      "description": "A name associated with the individual.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Patient.gender",
+      "label": "Gender",
+      "description": "Administrative gender — the gender that the patient is considered to have for administration and record keeping purposes. Values: male | female | other | unknown.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Patient.birthDate",
+      "label": "Birth Date",
+      "description": "The date of birth for the individual.",
+      "type_category": "primitive",
+      "type_primitive": "date",
+      "required": false
+    },
+    {
+      "path": "Patient.deceasedBoolean",
+      "label": "Deceased (Boolean)",
+      "description": "Indicates if the individual is deceased or not.",
+      "type_category": "primitive",
+      "type_primitive": "boolean",
+      "required": false
+    },
+    {
+      "path": "Patient.deceasedDateTime",
+      "label": "Deceased Date Time",
+      "description": "Date and time of death for the individual.",
+      "type_category": "primitive",
+      "type_primitive": "datetime",
+      "required": false
+    },
+    {
+      "path": "Patient.address",
+      "label": "Address",
+      "description": "An address for the individual.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Patient.telecom",
+      "label": "Telecom",
+      "description": "A contact detail (telephone, email, etc.) for the individual.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Patient.maritalStatus",
+      "label": "Marital Status",
+      "description": "The patient's most recent marital (civil) status.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Patient.communication",
+      "label": "Communication",
+      "description": "A language which may be used to communicate with the patient about his or her health.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Patient.generalPractitioner",
+      "label": "General Practitioner",
+      "description": "Patient's nominated care provider. Reference to Organization, Practitioner, or PractitionerRole.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Patient.managingOrganization",
+      "label": "Managing Organization",
+      "description": "Organization that is the custodian of the patient record. Reference to Organization.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Patient.link",
+      "label": "Link",
+      "description": "Link to another patient resource that concerns the same actual person.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    }
+  ]
+}

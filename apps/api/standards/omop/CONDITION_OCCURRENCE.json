@@ -1,0 +1,134 @@
+{
+  "schema_name": "OMOP_CONDITION_OCCURRENCE",
+  "format_id": "omop_cdm",
+  "version": "5.4",
+  "description": "OMOP CDM v5.4 CONDITION_OCCURRENCE table — records of conditions, diagnoses, signs, symptoms, which are either observed, reported, or inferred. Conditions are typically coded using ICD-10, SNOMED CT, or similar vocabularies.",
+  "metadata_tags": {
+    "source": "bundled",
+    "standard": "OMOP CDM",
+    "standard_version": "5.4",
+    "table": "CONDITION_OCCURRENCE"
+  },
+  "fields": [
+    {
+      "path": "condition_occurrence.condition_occurrence_id",
+      "label": "Condition Occurrence ID",
+      "description": "A unique identifier for each condition occurrence event.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "condition_occurrence.person_id",
+      "label": "Person ID",
+      "description": "A foreign key identifier to the Person who is experiencing the condition. The demographic details of that Person are stored in the PERSON table.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "condition_occurrence.condition_concept_id",
+      "label": "Condition Concept ID",
+      "description": "A foreign key that refers to a Standard Concept identifier in the Standardized Vocabularies for the condition. These are SNOMED-CT concepts.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "condition_occurrence.condition_start_date",
+      "label": "Condition Start Date",
+      "description": "The date when the instance of the Condition is recorded.",
+      "type_category": "primitive",
+      "type_primitive": "date",
+      "required": true
+    },
+    {
+      "path": "condition_occurrence.condition_start_datetime",
+      "label": "Condition Start Datetime",
+      "description": "The date and time when the instance of the Condition is recorded.",
+      "type_category": "primitive",
+      "type_primitive": "datetime",
+      "required": false
+    },
+    {
+      "path": "condition_occurrence.condition_end_date",
+      "label": "Condition End Date",
+      "description": "The date when the instance of the Condition is considered to have ended.",
+      "type_category": "primitive",
+      "type_primitive": "date",
+      "required": false
+    },
+    {
+      "path": "condition_occurrence.condition_end_datetime",
+      "label": "Condition End Datetime",
+      "description": "The date and time when the instance of the Condition is considered to have ended.",
+      "type_category": "primitive",
+      "type_primitive": "datetime",
+      "required": false
+    },
+    {
+      "path": "condition_occurrence.condition_type_concept_id",
+      "label": "Condition Type Concept ID",
+      "description": "A foreign key to the predefined Concept identifier in the Standardized Vocabularies reflecting the source data from which the condition was recorded.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "condition_occurrence.condition_status_concept_id",
+      "label": "Condition Status Concept ID",
+      "description": "A foreign key that refers to a Standard Concept identifier in the Standardized Vocabularies reflecting the point of care at which the Condition was diagnosed.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "condition_occurrence.stop_reason",
+      "label": "Stop Reason",
+      "description": "The reason that the condition was no longer present, as indicated in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "condition_occurrence.provider_id",
+      "label": "Provider ID",
+      "description": "A foreign key to the Provider in the PROVIDER table who was responsible for capturing (diagnosing) the Condition.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "condition_occurrence.visit_occurrence_id",
+      "label": "Visit Occurrence ID",
+      "description": "A foreign key to the visit in the VISIT_OCCURRENCE table during which the Condition was determined (diagnosed).",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "condition_occurrence.condition_source_value",
+      "label": "Condition Source Value",
+      "description": "The source code for the condition as it appears in the source data. This code is mapped to a Standard Concept in the Standardized Vocabularies and the original code is stored here for reference.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "condition_occurrence.condition_source_concept_id",
+      "label": "Condition Source Concept ID",
+      "description": "A foreign key to a Concept that refers to the code used in the source.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "condition_occurrence.condition_status_source_value",
+      "label": "Condition Status Source Value",
+      "description": "The source code for the condition status as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    }
+  ]
+}

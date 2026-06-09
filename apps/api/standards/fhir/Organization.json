@@ -1,0 +1,102 @@
+{
+  "schema_name": "FHIR_Organization",
+  "format_id": "fhir_profile",
+  "version": "R4",
+  "description": "FHIR R4 Organization resource — a formally or informally recognized grouping of people or organizations formed for the purpose of achieving some form of collective action.",
+  "metadata_tags": {
+    "source": "bundled",
+    "standard": "FHIR",
+    "standard_version": "R4",
+    "resource": "Organization"
+  },
+  "fields": [
+    {
+      "path": "Organization.id",
+      "label": "Resource ID",
+      "description": "The logical id of the resource, as used in the URL for the resource.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Organization.identifier",
+      "label": "Identifier",
+      "description": "Identifies this organization across multiple systems.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Organization.active",
+      "label": "Active",
+      "description": "Whether the organization's record is still in active use.",
+      "type_category": "primitive",
+      "type_primitive": "boolean",
+      "required": false
+    },
+    {
+      "path": "Organization.type",
+      "label": "Type",
+      "description": "The kind(s) of organization that this is.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Organization.name",
+      "label": "Name",
+      "description": "A name used for the organization.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Organization.alias",
+      "label": "Alias",
+      "description": "A list of alternate names that the organization is known as, or was known as in the past.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Organization.telecom",
+      "label": "Telecom",
+      "description": "A contact detail for the organization.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Organization.address",
+      "label": "Address",
+      "description": "An address for the organization.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Organization.partOf",
+      "label": "Part Of",
+      "description": "The organization of which this organization forms a part. Reference to Organization.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Organization.contact",
+      "label": "Contact",
+      "description": "Contact for the organization for a certain purpose.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Organization.endpoint",
+      "label": "Endpoint",
+      "description": "Technical endpoints providing access to services operated for the organization. Reference to Endpoint.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    }
+  ]
+}

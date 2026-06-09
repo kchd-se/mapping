@@ -1,0 +1,142 @@
+{
+  "schema_name": "OMOP_OBSERVATION",
+  "format_id": "omop_cdm",
+  "version": "5.4",
+  "description": "OMOP CDM v5.4 OBSERVATION table — clinical facts about a Patient obtained in the context of examination, questioning or a procedure. Any data that cannot be represented appropriately by other domains, such as social and lifestyle facts, medical history, family history, and patient-reported outcomes, are recorded here.",
+  "metadata_tags": {
+    "source": "bundled",
+    "standard": "OMOP CDM",
+    "standard_version": "5.4",
+    "table": "OBSERVATION"
+  },
+  "fields": [
+    {
+      "path": "observation.observation_id",
+      "label": "Observation ID",
+      "description": "A unique identifier for each observation.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "observation.person_id",
+      "label": "Person ID",
+      "description": "A foreign key identifier to the Person about whom the Observation was recorded.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "observation.observation_concept_id",
+      "label": "Observation Concept ID",
+      "description": "A foreign key to the standard observation concept identifier in the Standardized Vocabularies.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "observation.observation_date",
+      "label": "Observation Date",
+      "description": "The date of the Observation.",
+      "type_category": "primitive",
+      "type_primitive": "date",
+      "required": true
+    },
+    {
+      "path": "observation.observation_datetime",
+      "label": "Observation Datetime",
+      "description": "The date and time of the Observation.",
+      "type_category": "primitive",
+      "type_primitive": "datetime",
+      "required": false
+    },
+    {
+      "path": "observation.observation_type_concept_id",
+      "label": "Observation Type Concept ID",
+      "description": "A foreign key to the predefined concept identifier in the Standardized Vocabularies reflecting the type of the Observation.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "observation.value_as_number",
+      "label": "Value As Number",
+      "description": "The observation result stored as a number. This is applicable to observations where the result is expressed as a numeric value.",
+      "type_category": "primitive",
+      "type_primitive": "decimal",
+      "required": false
+    },
+    {
+      "path": "observation.value_as_string",
+      "label": "Value As String",
+      "description": "The observation result stored as a verbatim string. This is applicable to observations where the result is expressed as verbatim text.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "observation.value_as_concept_id",
+      "label": "Value As Concept ID",
+      "description": "A foreign key to an observation result stored as a Concept ID.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "observation.unit_concept_id",
+      "label": "Unit Concept ID",
+      "description": "A foreign key to a Standard Concept identifier for the unit of measure associated with the observation.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "observation.provider_id",
+      "label": "Provider ID",
+      "description": "A foreign key to the provider in the PROVIDER table who was responsible for making the observation.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "observation.visit_occurrence_id",
+      "label": "Visit Occurrence ID",
+      "description": "A foreign key to the Visit in the VISIT_OCCURRENCE table during which the Observation was recorded.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "observation.observation_source_value",
+      "label": "Observation Source Value",
+      "description": "The observation code as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "observation.observation_source_concept_id",
+      "label": "Observation Source Concept ID",
+      "description": "A foreign key to a Concept that refers to the code used in the source.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "observation.unit_source_value",
+      "label": "Unit Source Value",
+      "description": "The source code for the unit as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "observation.qualifier_source_value",
+      "label": "Qualifier Source Value",
+      "description": "The source value associated with a qualifier to characterize the observation.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    }
+  ]
+}

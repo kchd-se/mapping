@@ -743,6 +743,86 @@
             }
           }
         }
+      },
+      "put": {
+        "tags": [
+          "mappings"
+        ],
+        "summary": "Update Mapping Version",
+        "description": "Replace the rules (and optionally notes) of an existing mapping version in-place.",
+        "operationId": "update_mapping_version_projects__project_id__mappings__version_id__put",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "version_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Version Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "anonymous",
+              "title": "X-User-Id"
+            }
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "viewer",
+              "title": "X-User-Role"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMappingVersionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MappingVersionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/projects/{project_id}/validate": {
@@ -824,7 +904,7 @@
           "export"
         ],
         "summary": "Export Mapping",
-        "description": "Export a mapping artifact as deterministic JSON.\n\nScript generation is a Phase 6 concern.  The transformation_script field\ncontains a clearly-marked placeholder (RL-10, RL-01).",
+        "description": "Export a mapping artifact as deterministic JSON + SQL transformation script.",
         "operationId": "export_mapping_projects__project_id__export_post",
         "parameters": [
           {
@@ -1493,6 +1573,13 @@
               }
             ],
             "title": "Notes"
+          },
+          "rules": {
+            "items": {
+              "$ref": "#/components/schemas/MappingRuleDTO"
+            },
+            "type": "array",
+            "title": "Rules"
           }
         },
         "type": "object",
@@ -1668,6 +1755,25 @@
         ],
         "title": "SeverityOverride"
       },
+      "SourceFieldRef": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "path": {
+            "type": "string",
+            "title": "Path"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "path"
+        ],
+        "title": "SourceFieldRef",
+        "description": "Lightweight reference to a source schema field (id + human-readable path)."
+      },
       "SuggestionCandidateDTO": {
         "properties": {
           "source_field_ids": {
@@ -1676,6 +1782,13 @@
             },
             "type": "array",
             "title": "Source Field Ids"
+          },
+          "source_field_paths": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Field Paths"
           },
           "confidence": {
             "type": "number",
@@ -1699,6 +1812,7 @@
         "type": "object",
         "required": [
           "source_field_ids",
+          "source_field_paths",
           "confidence",
           "reasons",
           "warnings"
@@ -1720,6 +1834,20 @@
             "minimum": 0.0,
             "title": "Min Confidence",
             "default": 0.0
+          },
+          "semantic_weight": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Semantic Weight",
+            "description": "Weight for the semantic similarity strategy (0.0–1.0). Overrides the server default (SEMANTIC_WEIGHT env var, default 0.25). Set to 0.0 to disable semantic scoring entirely."
           }
         },
         "type": "object",
@@ -1745,6 +1873,13 @@
             },
             "type": "array",
             "title": "Field Suggestions"
+          },
+          "source_fields": {
+            "items": {
+              "$ref": "#/components/schemas/SourceFieldRef"
+            },
+            "type": "array",
+            "title": "Source Fields"
           }
         },
         "type": "object",
@@ -1777,6 +1912,33 @@
         },
         "type": "object",
         "title": "TransformHintDTO"
+      },
+      "UpdateMappingVersionRequest": {
+        "properties": {
+          "rules": {
+            "items": {
+              "$ref": "#/components/schemas/MappingRuleDTO"
+            },
+            "type": "array",
+            "title": "Rules"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rules"
+        ],
+        "title": "UpdateMappingVersionRequest"
       },
       "UpdateProjectStatusRequest": {
         "properties": {

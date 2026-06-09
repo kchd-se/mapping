@@ -338,7 +338,7 @@ class TestSuggestions:
         )
         assert r.status_code == 422
 
-    def test_viewer_cannot_request_suggestions(self, client):
+    def test_suggestions_viewer_cannot_request(self, client):
         pid, _, _ = _wire_project(client)
         r = client.post(
             f"/projects/{pid}/suggestions",
@@ -346,6 +346,26 @@ class TestSuggestions:
             headers=viewer_headers(),
         )
         assert r.status_code == 403
+
+    def test_suggestions_include_all_source_fields(self, client):
+        """source_fields must include every source field, not just those with candidates."""
+        pid, _, _ = _wire_project(client)
+        r = client.post(
+            f"/projects/{pid}/suggestions",
+            json={"top_k": 3, "min_confidence": 0.5},  # high threshold → some may be filtered
+            headers=analyst_headers(),
+        )
+        body = r.json()
+        # source_fields must be present and cover all fields in the source schema
+        assert "source_fields" in body
+        source_field_paths = {sf["path"] for sf in body["source_fields"]}
+        # SOURCE_JSON_SCHEMA has: patient_id, fornamn, efternamn, fodelsedatum
+        assert "patient_id" in source_field_paths
+        assert "fornamn" in source_field_paths
+        assert "efternamn" in source_field_paths
+        assert "fodelsedatum" in source_field_paths
+        # Count must match the number of fields in the source schema
+        assert len(body["source_fields"]) == 4
 
 
 # ---------------------------------------------------------------------------
@@ -556,7 +576,8 @@ class TestExport:
         artifact = json.loads(body["artifact_json"])
         assert artifact["artifact_format_version"] == "1.0"
 
-    def test_export_script_is_placeholder(self, client):
+    def test_export_script_without_schemas_returns_fallback(self, client):
+        """When no schemas are pinned, the script field contains the fallback message."""
         pid = _create_project(client)
         mv_id = _create_mapping_version(client, pid, rules=[])
         r = client.post(
@@ -564,7 +585,10 @@ class TestExport:
             params={"mapping_version_id": mv_id},
             headers=analyst_headers(),
         )
-        assert "TODO: Phase 6" in r.json()["transformation_script"]
+        assert r.status_code == 200
+        script = r.json()["transformation_script"]
+        assert "Script generation skipped" in script
+        assert "source or target schema not pinned" in script
 
     def test_export_emits_audit_event(self, client):
         from apps.api import state

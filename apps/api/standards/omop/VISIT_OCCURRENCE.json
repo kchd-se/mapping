@@ -1,0 +1,150 @@
+{
+  "schema_name": "OMOP_VISIT_OCCURRENCE",
+  "format_id": "omop_cdm",
+  "version": "5.4",
+  "description": "OMOP CDM v5.4 VISIT_OCCURRENCE table — encounters where the person engages with the healthcare system for a duration of time.",
+  "metadata_tags": {
+    "source": "bundled",
+    "standard": "OMOP CDM",
+    "standard_version": "5.4",
+    "table": "VISIT_OCCURRENCE"
+  },
+  "fields": [
+    {
+      "path": "visit_occurrence.visit_occurrence_id",
+      "label": "Visit Occurrence ID",
+      "description": "A unique identifier for each person's visit or encounter at a healthcare provider.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "visit_occurrence.person_id",
+      "label": "Person ID",
+      "description": "A foreign key identifier to the person for whom the visit is recorded. The demographic details of that person are stored in the PERSON table.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "visit_occurrence.visit_concept_id",
+      "label": "Visit Concept ID",
+      "description": "A foreign key that refers to a visit concept identifier in the Standardized Vocabularies.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "visit_occurrence.visit_start_date",
+      "label": "Visit Start Date",
+      "description": "The start date of the visit.",
+      "type_category": "primitive",
+      "type_primitive": "date",
+      "required": true
+    },
+    {
+      "path": "visit_occurrence.visit_start_datetime",
+      "label": "Visit Start Datetime",
+      "description": "The date and time of the visit started.",
+      "type_category": "primitive",
+      "type_primitive": "datetime",
+      "required": false
+    },
+    {
+      "path": "visit_occurrence.visit_end_date",
+      "label": "Visit End Date",
+      "description": "The end date of the visit. If this is a one-day visit the end date should match the start date.",
+      "type_category": "primitive",
+      "type_primitive": "date",
+      "required": true
+    },
+    {
+      "path": "visit_occurrence.visit_end_datetime",
+      "label": "Visit End Datetime",
+      "description": "The date and time of the visit end.",
+      "type_category": "primitive",
+      "type_primitive": "datetime",
+      "required": false
+    },
+    {
+      "path": "visit_occurrence.visit_type_concept_id",
+      "label": "Visit Type Concept ID",
+      "description": "A foreign key to the predefined concept identifier in the Standardized Vocabularies reflecting the type of source data from which the visit record is derived.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "visit_occurrence.provider_id",
+      "label": "Provider ID",
+      "description": "A foreign key to the provider in the provider table who was associated with the visit.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "visit_occurrence.care_site_id",
+      "label": "Care Site ID",
+      "description": "A foreign key to the care site in the care_site table that was visited.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "visit_occurrence.visit_source_value",
+      "label": "Visit Source Value",
+      "description": "The source code for the visit as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "visit_occurrence.visit_source_concept_id",
+      "label": "Visit Source Concept ID",
+      "description": "A foreign key to a concept that refers to the code used in the source.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "visit_occurrence.admitted_from_concept_id",
+      "label": "Admitted From Concept ID",
+      "description": "A foreign key to the predefined concept in the Place of Service Vocabulary reflecting the admitting source for a visit.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "visit_occurrence.admitted_from_source_value",
+      "label": "Admitted From Source Value",
+      "description": "The source code for the admitting source as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "visit_occurrence.discharged_to_concept_id",
+      "label": "Discharged To Concept ID",
+      "description": "A foreign key to the predefined concept in the Place of Service Vocabulary reflecting the discharge disposition for a visit.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "visit_occurrence.discharged_to_source_value",
+      "label": "Discharged To Source Value",
+      "description": "The source code for the discharge disposition as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "visit_occurrence.preceding_visit_occurrence_id",
+      "label": "Preceding Visit Occurrence ID",
+      "description": "A foreign key to the VISIT_OCCURRENCE table of the visit immediately preceding this visit.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    }
+  ]
+}

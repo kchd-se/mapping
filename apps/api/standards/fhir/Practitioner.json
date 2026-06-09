@@ -1,0 +1,94 @@
+{
+  "schema_name": "FHIR_Practitioner",
+  "format_id": "fhir_profile",
+  "version": "R4",
+  "description": "FHIR R4 Practitioner resource — a person who is directly or indirectly involved in the provisioning of healthcare.",
+  "metadata_tags": {
+    "source": "bundled",
+    "standard": "FHIR",
+    "standard_version": "R4",
+    "resource": "Practitioner"
+  },
+  "fields": [
+    {
+      "path": "Practitioner.id",
+      "label": "Resource ID",
+      "description": "The logical id of the resource, as used in the URL for the resource.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Practitioner.identifier",
+      "label": "Identifier",
+      "description": "An identifier that applies to this person in this role. May include NPI, license number, employee ID.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Practitioner.active",
+      "label": "Active",
+      "description": "Whether this practitioner's record is in active use.",
+      "type_category": "primitive",
+      "type_primitive": "boolean",
+      "required": false
+    },
+    {
+      "path": "Practitioner.name",
+      "label": "Name",
+      "description": "The name(s) associated with the practitioner.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Practitioner.telecom",
+      "label": "Telecom",
+      "description": "A contact detail for the practitioner, e.g. phone number, email address.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Practitioner.address",
+      "label": "Address",
+      "description": "Address(es) of the practitioner that are not role specific (typically home address).",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Practitioner.gender",
+      "label": "Gender",
+      "description": "Administrative gender of the practitioner. Values: male | female | other | unknown.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Practitioner.birthDate",
+      "label": "Birth Date",
+      "description": "The date of birth for the practitioner.",
+      "type_category": "primitive",
+      "type_primitive": "date",
+      "required": false
+    },
+    {
+      "path": "Practitioner.qualification",
+      "label": "Qualification",
+      "description": "The official certifications, training, and licenses that authorize or otherwise pertain to the provision of care by the practitioner.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Practitioner.communication",
+      "label": "Communication",
+      "description": "A language the practitioner can use in patient communication.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    }
+  ]
+}

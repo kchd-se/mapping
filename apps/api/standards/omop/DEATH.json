@@ -1,0 +1,70 @@
+{
+  "schema_name": "OMOP_DEATH",
+  "format_id": "omop_cdm",
+  "version": "5.4",
+  "description": "OMOP CDM v5.4 DEATH table — clinical event for how and when a Person dies. May be set by a clinician or derived from an administrative source.",
+  "metadata_tags": {
+    "source": "bundled",
+    "standard": "OMOP CDM",
+    "standard_version": "5.4",
+    "table": "DEATH"
+  },
+  "fields": [
+    {
+      "path": "death.person_id",
+      "label": "Person ID",
+      "description": "A foreign key identifier to the deceased person. The demographic details of that Person are stored in the PERSON table.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "death.death_date",
+      "label": "Death Date",
+      "description": "The date the person was deceased.",
+      "type_category": "primitive",
+      "type_primitive": "date",
+      "required": true
+    },
+    {
+      "path": "death.death_datetime",
+      "label": "Death Datetime",
+      "description": "The date and time the person was deceased.",
+      "type_category": "primitive",
+      "type_primitive": "datetime",
+      "required": false
+    },
+    {
+      "path": "death.death_type_concept_id",
+      "label": "Death Type Concept ID",
+      "description": "A foreign key referring to the predefined concept identifier in the Standardized Vocabularies reflecting how the death was represented in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "death.cause_concept_id",
+      "label": "Cause Concept ID",
+      "description": "A foreign key referring to a standard concept identifier in the Standardized Vocabularies for conditions.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "death.cause_source_value",
+      "label": "Cause Source Value",
+      "description": "The source code for the cause of death as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "death.cause_source_concept_id",
+      "label": "Cause Source Concept ID",
+      "description": "A foreign key to the concept that refers to the code used in the source.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    }
+  ]
+}

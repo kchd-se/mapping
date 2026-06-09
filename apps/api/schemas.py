@@ -96,13 +96,30 @@ class ProjectSchemasResponse(BaseModel):
 # ---------------------------------------------------------------------------
 
 
+class SourceFieldRef(BaseModel):
+    """Lightweight reference to a source schema field (id + human-readable path)."""
+    id: str
+    path: str
+
+
 class SuggestionsRequest(BaseModel):
     top_k: int = Field(default=5, ge=1, le=50)
     min_confidence: float = Field(default=0.0, ge=0.0, le=1.0)
+    semantic_weight: Optional[float] = Field(
+        default=None,
+        ge=0.0,
+        le=1.0,
+        description=(
+            "Weight for the semantic similarity strategy (0.0–1.0). "
+            "Overrides the server default (SEMANTIC_WEIGHT env var, default 0.25). "
+            "Set to 0.0 to disable semantic scoring entirely."
+        ),
+    )
 
 
 class SuggestionCandidateDTO(BaseModel):
     source_field_ids: List[str]
+    source_field_paths: List[str]
     confidence: float
     reasons: List[str]
     warnings: List[str]
@@ -119,6 +136,7 @@ class SuggestionsResponse(BaseModel):
     source_schema_id: str
     target_schema_id: str
     field_suggestions: List[FieldSuggestionsDTO]
+    source_fields: List[SourceFieldRef] = Field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
@@ -146,6 +164,11 @@ class CreateMappingVersionRequest(BaseModel):
     notes: Optional[str] = None
 
 
+class UpdateMappingVersionRequest(BaseModel):
+    rules: List[MappingRuleDTO]
+    notes: Optional[str] = None
+
+
 class MappingVersionResponse(BaseModel):
     id: str
     project_id: str
@@ -153,6 +176,7 @@ class MappingVersionResponse(BaseModel):
     created_at: str
     rule_count: int
     notes: Optional[str]
+    rules: List[MappingRuleDTO] = Field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------

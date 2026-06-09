@@ -85,8 +85,30 @@ def import_source_schema(
         raise HTTPException(status_code=422, detail=f"Unknown format_id '{body.format_id}': {exc}")
     except AdapterParseError as exc:
         raise HTTPException(status_code=422, detail=f"Schema parse error: {exc}")
-    except SchemaVersionConflictError as exc:
-        raise HTTPException(status_code=409, detail=str(exc))
+    except NotImplementedError as exc:
+        raise HTTPException(
+            status_code=422,
+            detail=f"Format '{body.format_id}' adapter is not yet implemented: {exc}",
+        )
+    except SchemaVersionConflictError:
+        # (name, format, version) already registered — idempotent reuse of existing version.
+        # Versions are immutable so the content is guaranteed to be identical.
+        matching = [
+            e for e in catalog.list_entries(format_id=body.format_id)
+            if e.descriptor.name == body.schema_name
+        ]
+        if not matching:
+            raise HTTPException(
+                status_code=409,
+                detail=f"Version conflict for '{body.schema_name}' v{body.version_label} but catalog entry not found.",
+            )
+        try:
+            schema_version = catalog.get_schema_version(matching[0].descriptor.id, body.version_label)
+        except SchemaNotFoundError:
+            raise HTTPException(
+                status_code=409,
+                detail=f"Version conflict for '{body.schema_name}' but version '{body.version_label}' could not be resolved.",
+            )
     except KeyError as exc:
         raise HTTPException(
             status_code=422,

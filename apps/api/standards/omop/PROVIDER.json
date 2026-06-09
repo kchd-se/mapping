@@ -1,0 +1,118 @@
+{
+  "schema_name": "OMOP_PROVIDER",
+  "format_id": "omop_cdm",
+  "version": "5.4",
+  "description": "OMOP CDM v5.4 PROVIDER table — unique identifiers for healthcare providers. Providers include physicians (MDs and DOs), nurses (RNs and LPNs), and others involved in healthcare delivery.",
+  "metadata_tags": {
+    "source": "bundled",
+    "standard": "OMOP CDM",
+    "standard_version": "5.4",
+    "table": "PROVIDER"
+  },
+  "fields": [
+    {
+      "path": "provider.provider_id",
+      "label": "Provider ID",
+      "description": "A unique identifier for each Provider.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "provider.provider_name",
+      "label": "Provider Name",
+      "description": "A description of the Provider.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "provider.npi",
+      "label": "NPI",
+      "description": "The National Provider Identifier (NPI) of the provider.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "provider.dea",
+      "label": "DEA",
+      "description": "The Drug Enforcement Administration (DEA) number of the provider.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "provider.specialty_concept_id",
+      "label": "Specialty Concept ID",
+      "description": "A foreign key to a Standard Specialty Concept ID in the Standardized Vocabularies.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "provider.care_site_id",
+      "label": "Care Site ID",
+      "description": "A foreign key to the main Care Site where the provider is practicing.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "provider.year_of_birth",
+      "label": "Year Of Birth",
+      "description": "The year of birth of the Provider.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "provider.gender_concept_id",
+      "label": "Gender Concept ID",
+      "description": "The gender of the Provider.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "provider.provider_source_value",
+      "label": "Provider Source Value",
+      "description": "The identifier used for the Provider in the source data, stored here for reference.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "provider.specialty_source_value",
+      "label": "Specialty Source Value",
+      "description": "The source code for the specialty as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "provider.specialty_source_concept_id",
+      "label": "Specialty Source Concept ID",
+      "description": "A foreign key to a Concept that refers to the code used in the source for the Provider specialty.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "provider.gender_source_value",
+      "label": "Gender Source Value",
+      "description": "The source code for the gender of the Provider as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "provider.gender_source_concept_id",
+      "label": "Gender Source Concept ID",
+      "description": "A foreign key to a Concept that refers to the code used in the source for the gender of the Provider.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,174 @@
+{
+  "schema_name": "OMOP_DRUG_EXPOSURE",
+  "format_id": "omop_cdm",
+  "version": "5.4",
+  "description": "OMOP CDM v5.4 DRUG_EXPOSURE table — records of drugs including prescription and over-the-counter medicines, vaccines, and large-molecule biologic therapies. Drugs are mapped to RxNorm concepts.",
+  "metadata_tags": {
+    "source": "bundled",
+    "standard": "OMOP CDM",
+    "standard_version": "5.4",
+    "table": "DRUG_EXPOSURE"
+  },
+  "fields": [
+    {
+      "path": "drug_exposure.drug_exposure_id",
+      "label": "Drug Exposure ID",
+      "description": "A system-generated unique identifier for each Drug utilization event.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "drug_exposure.person_id",
+      "label": "Person ID",
+      "description": "A foreign key identifier to the Person who is subjected to the Drug. The demographic details of that Person are stored in the PERSON table.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "drug_exposure.drug_concept_id",
+      "label": "Drug Concept ID",
+      "description": "A foreign key that refers to a Standard Concept identifier in the Standardized Vocabularies for the Drug concept. These are RxNorm or NDC concepts.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "drug_exposure.drug_exposure_start_date",
+      "label": "Drug Exposure Start Date",
+      "description": "The start date for the current instance of Drug utilization. Valid entries include a start date of a prescription, the date a prescription was filled, or the date on which a Drug administration was recorded.",
+      "type_category": "primitive",
+      "type_primitive": "date",
+      "required": true
+    },
+    {
+      "path": "drug_exposure.drug_exposure_start_datetime",
+      "label": "Drug Exposure Start Datetime",
+      "description": "The start date and time for the current instance of Drug utilization.",
+      "type_category": "primitive",
+      "type_primitive": "datetime",
+      "required": false
+    },
+    {
+      "path": "drug_exposure.drug_exposure_end_date",
+      "label": "Drug Exposure End Date",
+      "description": "The end date for the current instance of Drug utilization. Reflects the date the patient was expected to have stopped the drug, if known.",
+      "type_category": "primitive",
+      "type_primitive": "date",
+      "required": false
+    },
+    {
+      "path": "drug_exposure.drug_exposure_end_datetime",
+      "label": "Drug Exposure End Datetime",
+      "description": "The end date and time for the current instance of Drug utilization.",
+      "type_category": "primitive",
+      "type_primitive": "datetime",
+      "required": false
+    },
+    {
+      "path": "drug_exposure.drug_type_concept_id",
+      "label": "Drug Type Concept ID",
+      "description": "A foreign key to the predefined Concept identifier in the Standardized Vocabularies reflecting the type of Drug Exposure recorded. It indicates how the Drug Exposure was represented in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "drug_exposure.stop_reason",
+      "label": "Stop Reason",
+      "description": "The reason the Drug was stopped. Reasons include regimen completed, changed, removed, etc.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "drug_exposure.refills",
+      "label": "Refills",
+      "description": "The number of refills after the initial prescription. The initial prescription is not counted, values start with null.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "drug_exposure.quantity",
+      "label": "Quantity",
+      "description": "The quantity of drug as recorded in the original prescription or dispensing record.",
+      "type_category": "primitive",
+      "type_primitive": "decimal",
+      "required": false
+    },
+    {
+      "path": "drug_exposure.days_supply",
+      "label": "Days Supply",
+      "description": "The number of days of supply of the medication as recorded in the original prescription or dispensing record.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "drug_exposure.sig",
+      "label": "Sig",
+      "description": "The directions ('signetur') on the Drug prescription as recorded in the original prescription (and printed on the container) or dispensing record.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "drug_exposure.route_concept_id",
+      "label": "Route Concept ID",
+      "description": "A foreign key to a predefined concept in the Standardized Vocabularies reflecting the route of administration and target organ of the drug.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "drug_exposure.provider_id",
+      "label": "Provider ID",
+      "description": "A foreign key to the provider in the PROVIDER table who initiated (prescribed, administered) the Drug Exposure.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "drug_exposure.visit_occurrence_id",
+      "label": "Visit Occurrence ID",
+      "description": "A foreign key to the visit in the VISIT_OCCURRENCE table during which the Drug Exposure was initiated.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "drug_exposure.drug_source_value",
+      "label": "Drug Source Value",
+      "description": "The source code for the drug as it appears in the source data. This code is mapped to a Standard Drug concept in the Standardized Vocabularies and the original code is stored here for reference.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "drug_exposure.drug_source_concept_id",
+      "label": "Drug Source Concept ID",
+      "description": "A foreign key to a Concept that refers to the code used in the source.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "drug_exposure.route_source_value",
+      "label": "Route Source Value",
+      "description": "The information about the route of administration as detailed in the source.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "drug_exposure.dose_unit_source_value",
+      "label": "Dose Unit Source Value",
+      "description": "The information about the dose unit as detailed in the source.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    }
+  ]
+}

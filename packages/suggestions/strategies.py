@@ -25,6 +25,10 @@ from packages.core.models.canonical_schema import (
     FieldType,
     FieldTypeCategory,
 )
+from packages.suggestions.semantic.interface import (
+    SemanticDescriptor,
+    SemanticSimilarityProvider,
+)
 
 # ---------------------------------------------------------------------------
 # Strategy protocol and result
@@ -542,3 +546,81 @@ def default_strategies() -> List[ScoringStrategy]:
         PathSimilarityStrategy(weight=0.15),
         TerminologyAlignmentStrategy(weight=0.10),
     ]
+
+
+# ---------------------------------------------------------------------------
+# Strategy 6: Semantic Similarity (pluggable provider)
+# ---------------------------------------------------------------------------
+
+_PATH_SEP_RE = re.compile(r"[./\\]+")
+
+
+def _field_to_descriptor(canonical_field: CanonicalField) -> SemanticDescriptor:
+    """Convert a CanonicalField to a SemanticDescriptor for semantic scoring.
+
+    Path segments are split on ``.``, ``/``, or ``\\``.  The first segment
+    becomes the table name and the last becomes the field name.  For flat
+    (unseparated) paths both are set to the full path string.
+    """
+    parts = [p for p in _PATH_SEP_RE.split(canonical_field.path) if p]
+    if len(parts) >= 2:
+        table_name = parts[0]
+        field_name = parts[-1]
+    else:
+        table_name = canonical_field.path
+        field_name = canonical_field.path
+    return SemanticDescriptor(
+        table_name=table_name,
+        field_name=field_name,
+        description=canonical_field.description,
+    )
+
+
+class SemanticScoringStrategy:
+    """Wraps a SemanticSimilarityProvider as a ScoringStrategy.
+
+    Converts CanonicalField objects to SemanticDescriptors, delegates the
+    similarity computation to the injected provider, and surfaces the result
+    as a StrategyScore for the SuggestionEngine.
+
+    When added to the engine's strategy list, its weight participates in the
+    engine's auto-normalised weighted average so that no changes to existing
+    strategy weights are required.
+
+    Args:
+        provider: Any object implementing the SemanticSimilarityProvider
+                  Protocol (e.g. LexicalSemanticProvider).
+        weight:   Contribution weight in the weighted composite score.
+                  Default 0.15.
+    """
+
+    def __init__(
+        self,
+        provider: SemanticSimilarityProvider,
+        weight: float = 0.15,
+    ) -> None:
+        if weight <= 0:
+            raise ValueError(f"SemanticScoringStrategy weight must be > 0; got {weight}")
+        self._provider = provider
+        self._weight = weight
+
+    @property
+    def name(self) -> str:
+        return "semantic_similarity"
+
+    @property
+    def weight(self) -> float:
+        return self._weight
+
+    def score(
+        self, source: CanonicalField, target: CanonicalField
+    ) -> StrategyScore:
+        src_desc = _field_to_descriptor(source)
+        tgt_desc = _field_to_descriptor(target)
+        semantic_score = self._provider.compute(src_desc, tgt_desc)
+        return StrategyScore(
+            name=self.name,
+            score=round(semantic_score.similarity, 4),
+            weight=self._weight,
+            reason=semantic_score.explanation,
+        )

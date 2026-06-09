@@ -122,6 +122,16 @@ export const fixtures = {
     project_id: "proj-001",
     source_schema_id: "src-schema-001",
     target_schema_id: "tgt-schema-001",
+    // source_fields lists ALL source schema fields — including ones with no AI candidates.
+    source_fields: [
+      { id: "src-account-id", path: "patient.avdelning" },
+      { id: "src-birth-year", path: "patient.diagnosdatum" },
+      { id: "src-dob", path: "patient.fodelsedatum" },
+      { id: "src-patient-id", path: "patient.patientId" },
+      { id: "src-mrn", path: "patient.personnummer" },
+      { id: "src-gender", path: "patient.kon" },       // unmatched — no candidate
+      { id: "src-address", path: "patient.adress" },   // unmatched — no candidate
+    ],
     field_suggestions: [
       {
         target_field_id: "tgt-field-person-id",
@@ -129,18 +139,21 @@ export const fixtures = {
         candidates: [
           {
             source_field_ids: ["src-patient-id"],
+            source_field_paths: ["patient.patientId"],
             confidence: 0.95,
             reasons: ["Exact name match after normalization"],
             warnings: [],
           },
           {
             source_field_ids: ["src-mrn"],
+            source_field_paths: ["patient.personnummer"],
             confidence: 0.72,
             reasons: ["Both are identifier fields"],
             warnings: ["Different identifier schemes"],
           },
           {
             source_field_ids: ["src-account-id"],
+            source_field_paths: ["patient.avdelning"],
             confidence: 0.45,
             reasons: ["Partial name overlap"],
             warnings: ["Low semantic similarity"],
@@ -153,12 +166,14 @@ export const fixtures = {
         candidates: [
           {
             source_field_ids: ["src-dob"],
+            source_field_paths: ["patient.fodelsedatum"],
             confidence: 0.88,
             reasons: ["Date-of-birth semantic match"],
             warnings: [],
           },
           {
             source_field_ids: ["src-birth-year"],
+            source_field_paths: ["patient.diagnosdatum"],
             confidence: 0.55,
             reasons: ["Partial date component"],
             warnings: ["Year-only; missing month and day"],
@@ -174,8 +189,22 @@ export const fixtures = {
       project_id: "proj-001",
       version_label: "Draft v1",
       created_at: "2025-04-01T12:00:00Z",
-      rule_count: 4,
+      rule_count: 2,
       notes: "Initial draft",
+      rules: [
+        {
+          target_field_id: "tgt-field-person-id",
+          source_field_ids: ["src-patient-id"],
+          transform: { kind: "direct" },
+          notes: null,
+        },
+        {
+          target_field_id: "tgt-field-birth-date",
+          source_field_ids: ["src-dob"],
+          transform: { kind: "direct" },
+          notes: null,
+        },
+      ],
     },
   ],
 
@@ -233,6 +262,46 @@ export const fixtures = {
   }),
 
   catalogSchemas: (): CatalogSchemaResponse[] => [
+    // Standard bundles — shown as one-click standard cards in the UI
+    {
+      id: "bundle-fhir-r4",
+      name: "FHIR_R4",
+      format_id: "fhir_profile",
+      schema_type: "standard",
+      approval_status: "approved",
+      owner: "system",
+      description: "Combined FHIR R4 standard — maps against Patient, Organization, and Encounter profiles.",
+      latest_version_label: "R4",
+      available_versions_count: 1,
+      created_at: "2025-01-01T00:00:00Z",
+      metadata_tags: {
+        source: "bundled",
+        standard: "FHIR",
+        standard_version: "R4",
+        bundle: "true",
+        included_schemas: "FHIR_Patient,FHIR_Organization,FHIR_Encounter",
+      },
+    },
+    {
+      id: "bundle-omop-5-4",
+      name: "OMOP_CDM_5_4",
+      format_id: "omop_cdm",
+      schema_type: "standard",
+      approval_status: "approved",
+      owner: "system",
+      description: "Combined OMOP CDM 5.4 standard — maps against PERSON, CARE_SITE, VISIT_OCCURRENCE, and PROCEDURE_OCCURRENCE tables.",
+      latest_version_label: "5.4",
+      available_versions_count: 1,
+      created_at: "2025-01-01T00:00:00Z",
+      metadata_tags: {
+        source: "bundled",
+        standard: "OMOP CDM",
+        standard_version: "5.4",
+        bundle: "true",
+        included_schemas: "OMOP_PERSON,OMOP_CARE_SITE,OMOP_VISIT_OCCURRENCE,OMOP_PROCEDURE_OCCURRENCE",
+      },
+    },
+    // Individual schemas
     {
       id: "cat-001",
       name: "OMOP CDM Person",

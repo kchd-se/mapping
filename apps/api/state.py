@@ -12,12 +12,15 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 
+from apps.api.standards.loader import register_all as _register_standards
+from apps.api.standards.loader import register_bundles as _register_bundles
 from packages.adapters.defaults import register_defaults
 from packages.adapters.registry import AdapterRegistry
 from packages.catalog.catalog_service import CatalogService
 from packages.core.models.audit_event import AuditEvent
 from packages.core.models.mapping_project import MappingProject
 from packages.core.models.mapping_version import MappingVersion
+from packages.suggestions.semantic.azure_openai_provider import build_semantic_provider
 
 # ---------------------------------------------------------------------------
 # Shared adapter registry
@@ -41,12 +44,23 @@ _catalog = CatalogService(
     audit_log=_audit_log,
 )
 
+# Preload bundled standard schemas (OMOP CDM 5.4 + FHIR R4) — idempotent.
+_register_standards(_catalog)
+# Create merged composite schemas (FHIR_R4, OMOP_CDM_5_4) for single-click standard selection.
+_register_bundles(_catalog)
+
 # ---------------------------------------------------------------------------
 # Project store and mapping store (in-memory)
 # ---------------------------------------------------------------------------
 
 _projects: Dict[str, MappingProject] = {}
 _mapping_versions: Dict[str, List[MappingVersion]] = {}  # project_id → versions
+
+# ---------------------------------------------------------------------------
+# Semantic similarity provider (singleton, shared across all requests)
+# ---------------------------------------------------------------------------
+
+_semantic_provider = build_semantic_provider()
 
 
 # ---------------------------------------------------------------------------
@@ -71,6 +85,10 @@ def get_projects() -> Dict[str, MappingProject]:
 
 def get_mapping_versions() -> Dict[str, List[MappingVersion]]:
     return _mapping_versions
+
+
+def get_semantic_provider() -> object:
+    return _semantic_provider
 
 
 def reset_state() -> None:

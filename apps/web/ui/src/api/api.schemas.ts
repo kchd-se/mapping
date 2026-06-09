@@ -85,6 +85,7 @@ export interface SuggestionsRequest {
 
 export interface SuggestionCandidateDTO {
   source_field_ids: string[];
+  source_field_paths: string[];
   confidence: number;
   reasons: string[];
   warnings: string[];
@@ -96,11 +97,17 @@ export interface FieldSuggestionsDTO {
   candidates: SuggestionCandidateDTO[];
 }
 
+export interface SourceFieldRef {
+  id: string;
+  path: string;
+}
+
 export interface SuggestionsResponse {
   project_id: string;
   source_schema_id: string;
   target_schema_id: string;
   field_suggestions: FieldSuggestionsDTO[];
+  source_fields: SourceFieldRef[];
 }
 
 export interface TransformHintDTO {
@@ -129,6 +136,12 @@ export interface CreateMappingVersionRequest {
   notes?: string | null;
 }
 
+export interface UpdateMappingVersionRequest {
+  rules: MappingRuleDTO[];
+  /** @nullable */
+  notes?: string | null;
+}
+
 export interface MappingVersionResponse {
   id: string;
   project_id: string;
@@ -137,6 +150,7 @@ export interface MappingVersionResponse {
   rule_count: number;
   /** @nullable */
   notes: string | null;
+  rules?: MappingRuleDTO[];
 }
 
 export interface SeverityOverride {

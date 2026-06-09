@@ -221,7 +221,12 @@ class JsonSchemaAdapter(InputSchemaAdapter):
         defs: Dict[str, Any],
         schema_root: Dict[str, Any],
     ) -> None:
-        """Emit a field for this property, then recurse if it's an object."""
+        """Emit leaf fields for this property, recursing into objects and arrays-of-objects.
+
+        Container fields (type=object, type=array with object items) are NOT emitted
+        as fields themselves — they serve only as path prefixes.  Only primitive fields
+        and arrays-of-primitives are emitted as mappable leaf fields.
+        """
         # Resolve $ref
         if "$ref" in prop_schema:
             resolved = _resolve_ref(prop_schema["$ref"], defs, schema_root)
@@ -234,24 +239,16 @@ class JsonSchemaAdapter(InputSchemaAdapter):
             prop_schema = merged
 
         prop_type = prop_schema.get("type")
+        # JSON Schema allows type to be a list for union types (e.g. ["number", "string"]).
+        # Canonicalise to the first non-null member; treat purely-null unions as "null".
+        if isinstance(prop_type, list):
+            _non_null = [t for t in prop_type if t != "null"]
+            prop_type = _non_null[0] if _non_null else "null"
         has_properties = bool(prop_schema.get("properties"))
 
         if prop_type == "object" or (has_properties and prop_type is None):
-            # Emit an OBJECT field for the parent, then recurse into children
-            if path not in seen_paths:
-                seen_paths.add(path)
-                fields.append(
-                    CanonicalField(
-                        id=_stable_field_id(path),
-                        path=path,
-                        field_type=FieldType(category=FieldTypeCategory.OBJECT),
-                        cardinality=Cardinality(min_occurs=1 if is_required else 0, max_occurs=1),
-                        label=prop_schema.get("title"),
-                        description=prop_schema.get("description"),
-                        constraints=FieldConstraints(required=is_required),
-                        metadata_tags={},
-                    )
-                )
+            # Object container: skip emitting the container itself.
+            # Recurse into children so only leaf primitives reach the field list.
             child_req = set(prop_schema.get("required", []))
             for child_name, child_schema in prop_schema.get("properties", {}).items():
                 child_path = f"{path}.{child_name}"
@@ -265,7 +262,48 @@ class JsonSchemaAdapter(InputSchemaAdapter):
                     defs=defs,
                     schema_root=schema_root,
                 )
+
+        elif prop_type == "array":
+            items = prop_schema.get("items", {})
+            if "$ref" in items:
+                resolved = _resolve_ref(items["$ref"], defs, schema_root)
+                if resolved:
+                    items = resolved
+            items_type = items.get("type")
+            items_has_properties = bool(items.get("properties"))
+
+            if items_type == "object" or items_has_properties:
+                # Array-of-objects: skip emitting the array container itself.
+                # Use the array's path as the namespace prefix and recurse into
+                # the item's properties so each item field becomes a leaf field.
+                child_req = set(items.get("required", []))
+                for child_name, child_schema in items.get("properties", {}).items():
+                    child_path = f"{path}.{child_name}"
+                    self._walk_property(
+                        prop_name=child_name,
+                        prop_schema=child_schema if isinstance(child_schema, dict) else {},
+                        path=child_path,
+                        is_required=child_name in child_req,
+                        fields=fields,
+                        seen_paths=seen_paths,
+                        defs=defs,
+                        schema_root=schema_root,
+                    )
+            else:
+                # Array of primitives (or items type unknown): emit as leaf ARRAY field.
+                field = self._make_field(
+                    path=path,
+                    node=prop_schema,
+                    is_required=is_required,
+                    defs=defs,
+                    schema_root=schema_root,
+                )
+                if field and path not in seen_paths:
+                    seen_paths.add(path)
+                    fields.append(field)
+
         else:
+            # Primitive or unrecognised type: emit as a leaf field.
             field = self._make_field(
                 path=path,
                 node=prop_schema,
@@ -287,6 +325,10 @@ class JsonSchemaAdapter(InputSchemaAdapter):
     ) -> Optional[CanonicalField]:
         """Build a CanonicalField for a leaf or array schema node."""
         node_type = node.get("type")
+        # Normalise union type arrays (e.g. ["number", "string"]) to a single string.
+        if isinstance(node_type, list):
+            _non_null = [t for t in node_type if t != "null"]
+            node_type = _non_null[0] if _non_null else "null"
 
         if node_type == "array":
             items = node.get("items", {})
@@ -333,6 +375,10 @@ class JsonSchemaAdapter(InputSchemaAdapter):
     def _resolve_field_type(node: Dict[str, Any]) -> FieldType:
         """Map a JSON Schema node's type to a CanonicalFieldType."""
         node_type = node.get("type", "string")
+        # Normalise union type arrays (e.g. ["number", "string"]) to a single string.
+        if isinstance(node_type, list):
+            _non_null = [t for t in node_type if t != "null"]
+            node_type = _non_null[0] if _non_null else "null"
         if node_type == "object":
             return FieldType(category=FieldTypeCategory.OBJECT)
         if node_type == "array":

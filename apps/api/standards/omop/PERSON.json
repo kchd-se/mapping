@@ -1,0 +1,158 @@
+{
+  "schema_name": "OMOP_PERSON",
+  "format_id": "omop_cdm",
+  "version": "5.4",
+  "description": "OMOP CDM v5.4 PERSON table — demographic information for each distinct patient.",
+  "metadata_tags": {
+    "source": "bundled",
+    "standard": "OMOP CDM",
+    "standard_version": "5.4",
+    "table": "PERSON"
+  },
+  "fields": [
+    {
+      "path": "person.person_id",
+      "label": "Person ID",
+      "description": "A unique identifier for each person.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "person.gender_concept_id",
+      "label": "Gender Concept ID",
+      "description": "A foreign key that refers to an identifier in the Concept table for the unique gender of the person.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "person.year_of_birth",
+      "label": "Year of Birth",
+      "description": "The year of birth of the person. For data sources with date of birth, the year is extracted. For data sources where the year of birth is not available, the approximate year of birth is derived based on any age group categorization available.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "person.month_of_birth",
+      "label": "Month of Birth",
+      "description": "The month of birth of the person as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "person.day_of_birth",
+      "label": "Day of Birth",
+      "description": "The day of birth of the person as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "person.birth_datetime",
+      "label": "Birth Datetime",
+      "description": "The date and time of birth of the person.",
+      "type_category": "primitive",
+      "type_primitive": "datetime",
+      "required": false
+    },
+    {
+      "path": "person.race_concept_id",
+      "label": "Race Concept ID",
+      "description": "A foreign key that refers to an identifier in the Concept table for the unique race of the person.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "person.ethnicity_concept_id",
+      "label": "Ethnicity Concept ID",
+      "description": "A foreign key that refers to an identifier in the Concept table representing the ethnic background of the person.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "person.location_id",
+      "label": "Location ID",
+      "description": "A foreign key to the place of residency for the person in the location table.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "person.provider_id",
+      "label": "Provider ID",
+      "description": "A foreign key to the primary care provider the person is seeing in the provider table.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "person.care_site_id",
+      "label": "Care Site ID",
+      "description": "A foreign key to the site of primary care in the care_site table, where the details of the care site are stored.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "person.person_source_value",
+      "label": "Person Source Value",
+      "description": "An (encrypted) key derived from the person identifier in the source data. This is necessary when a use case requires a link back to the person data at the source dataset.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "person.gender_source_value",
+      "label": "Gender Source Value",
+      "description": "The source code for the gender of the person as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "person.gender_source_concept_id",
+      "label": "Gender Source Concept ID",
+      "description": "A foreign key to the gender concept that refers to the code used in the source.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "person.race_source_value",
+      "label": "Race Source Value",
+      "description": "The source code for the race of the person as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "person.race_source_concept_id",
+      "label": "Race Source Concept ID",
+      "description": "A foreign key to the race concept that refers to the code used in the source.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "person.ethnicity_source_value",
+      "label": "Ethnicity Source Value",
+      "description": "The source code for the ethnicity of the person as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "person.ethnicity_source_concept_id",
+      "label": "Ethnicity Source Concept ID",
+      "description": "A foreign key to the ethnicity concept that refers to the code used in the source.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    }
+  ]
+}

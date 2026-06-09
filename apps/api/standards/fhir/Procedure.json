@@ -1,0 +1,134 @@
+{
+  "schema_name": "FHIR_Procedure",
+  "format_id": "fhir_profile",
+  "version": "R4",
+  "description": "FHIR R4 Procedure resource — an action that is or was performed on or for a patient, practitioner, device, organization, or location. For example, a surgical procedure, diagnostic procedure, endoscopic procedure, biopsies, counseling, physiotherapy, or other intervention.",
+  "metadata_tags": {
+    "source": "bundled",
+    "standard": "FHIR",
+    "standard_version": "R4",
+    "resource": "Procedure"
+  },
+  "fields": [
+    {
+      "path": "Procedure.id",
+      "label": "Resource ID",
+      "description": "The logical id of the resource, as used in the URL for the resource.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Procedure.identifier",
+      "label": "Identifier",
+      "description": "Business identifiers assigned to this procedure by the performer or other systems.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Procedure.status",
+      "label": "Status",
+      "description": "A code specifying the state of the procedure. Values: preparation | in-progress | not-done | on-hold | stopped | completed | entered-in-error | unknown.",
+      "type_category": "primitive",
+      "type_primitive": "code",
+      "required": true
+    },
+    {
+      "path": "Procedure.statusReason",
+      "label": "Status Reason",
+      "description": "Captures the reason for the current state of the procedure.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Procedure.category",
+      "label": "Category",
+      "description": "A code that classifies the procedure for searching, sorting and display purposes (e.g. Surgical Procedure).",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Procedure.code",
+      "label": "Code",
+      "description": "The specific procedure that is performed. Use text if the exact nature of the procedure cannot be coded (e.g. CPT-4, ICD-10-PCS, SNOMED CT).",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": true
+    },
+    {
+      "path": "Procedure.subject",
+      "label": "Subject",
+      "description": "The person, animal or group on which the procedure was performed.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": true
+    },
+    {
+      "path": "Procedure.encounter",
+      "label": "Encounter",
+      "description": "The Encounter during which this Procedure was created or performed or to which the creation of this record is tightly associated.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Procedure.performedDateTime",
+      "label": "Performed Date Time",
+      "description": "Estimated or actual date, date-time, period, or age when the procedure was performed.",
+      "type_category": "primitive",
+      "type_primitive": "datetime",
+      "required": false
+    },
+    {
+      "path": "Procedure.recorder",
+      "label": "Recorder",
+      "description": "Individual who recorded the record and takes responsibility for its content.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Procedure.asserter",
+      "label": "Asserter",
+      "description": "Individual who is making the claim that the procedure was performed.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Procedure.performer",
+      "label": "Performer",
+      "description": "Limited to 'real' people rather than equipment.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Procedure.location",
+      "label": "Location",
+      "description": "The location where the procedure actually happened.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Procedure.reasonCode",
+      "label": "Reason Code",
+      "description": "The coded reason why the procedure was performed. This may be a coded entity of some type, or may simply be present as text.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Procedure.note",
+      "label": "Note",
+      "description": "Any other notes and comments about the procedure.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    }
+  ]
+}

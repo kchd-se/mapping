@@ -1,0 +1,126 @@
+{
+  "schema_name": "FHIR_Location",
+  "format_id": "fhir_profile",
+  "version": "R4",
+  "description": "FHIR R4 Location resource — details and position information for a physical place where services are provided and resources and participants may be stored, found, contained, or accommodated.",
+  "metadata_tags": {
+    "source": "bundled",
+    "standard": "FHIR",
+    "standard_version": "R4",
+    "resource": "Location"
+  },
+  "fields": [
+    {
+      "path": "Location.id",
+      "label": "Resource ID",
+      "description": "The logical id of the resource, as used in the URL for the resource.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Location.identifier",
+      "label": "Identifier",
+      "description": "Unique code or number identifying the location to its users.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Location.status",
+      "label": "Status",
+      "description": "The status property covers the general availability of the resource, not the current value which may be covered by the operationStatus, or by a schedule/slots if they are configured for the location. Values: active | suspended | inactive.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Location.name",
+      "label": "Name",
+      "description": "Name of the location as used by humans. Does not need to be unique.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Location.alias",
+      "label": "Alias",
+      "description": "A list of alternate names that the location is known as, or was known as, in the past.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Location.description",
+      "label": "Description",
+      "description": "Description of the Location, which helps in finding or referencing the place.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Location.mode",
+      "label": "Mode",
+      "description": "Indicates whether a resource instance represents a specific location or a class of locations. Values: instance | kind.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Location.type",
+      "label": "Type",
+      "description": "Indicates the type of function performed at the location. e.g. HOSP (hospital), EMER (emergency), LAB (laboratory room).",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Location.telecom",
+      "label": "Telecom",
+      "description": "The contact details of communication devices available at the location. This can include phone numbers, fax numbers, mobile numbers, email addresses and web sites.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Location.address",
+      "label": "Address",
+      "description": "Physical location.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Location.physicalType",
+      "label": "Physical Type",
+      "description": "Physical form of the location, e.g. building, room, vehicle, road. Values: bu (building), wi (wing), wa (ward), lvl (level), ro (room), bd (bed), ve (vehicle).",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Location.managingOrganization",
+      "label": "Managing Organization",
+      "description": "The organization responsible for the provisioning and upkeep of the location.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Location.partOf",
+      "label": "Part Of",
+      "description": "Another Location of which this Location is physically a part of.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Location.hoursOfOperation",
+      "label": "Hours Of Operation",
+      "description": "What days/times during a week is this location usually open.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "schema_name": "FHIR_Condition",
+  "format_id": "fhir_profile",
+  "version": "R4",
+  "description": "FHIR R4 Condition resource — a clinical condition, problem, diagnosis, or other event, situation, issue, or clinical concept that has risen to a level of concern.",
+  "metadata_tags": {
+    "source": "bundled",
+    "standard": "FHIR",
+    "standard_version": "R4",
+    "resource": "Condition"
+  },
+  "fields": [
+    {
+      "path": "Condition.id",
+      "label": "Resource ID",
+      "description": "The logical id of the resource, as used in the URL for the resource.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Condition.identifier",
+      "label": "Identifier",
+      "description": "Business identifiers assigned to this condition by the performer or other systems.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Condition.clinicalStatus",
+      "label": "Clinical Status",
+      "description": "The clinical status of the condition. Values: active | recurrence | relapse | inactive | remission | resolved.",
+      "type_category": "primitive",
+      "type_primitive": "code",
+      "required": true
+    },
+    {
+      "path": "Condition.verificationStatus",
+      "label": "Verification Status",
+      "description": "The verification status to support the clinical status of the condition. Values: unconfirmed | provisional | differential | confirmed | refuted | entered-in-error.",
+      "type_category": "primitive",
+      "type_primitive": "code",
+      "required": false
+    },
+    {
+      "path": "Condition.category",
+      "label": "Category",
+      "description": "A category assigned to the condition. e.g. problem-list-item | encounter-diagnosis.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Condition.severity",
+      "label": "Severity",
+      "description": "A subjective assessment of the severity of the condition as evaluated by the clinician.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Condition.code",
+      "label": "Code",
+      "description": "Identification of the condition, problem or diagnosis. Coded using ICD-10, SNOMED CT, or similar.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": true
+    },
+    {
+      "path": "Condition.subject",
+      "label": "Subject",
+      "description": "Indicates the patient or group who the condition record is associated with.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": true
+    },
+    {
+      "path": "Condition.encounter",
+      "label": "Encounter",
+      "description": "The Encounter during which this Condition was created or to which the creation of this record is tightly associated.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Condition.onsetDateTime",
+      "label": "Onset Date Time",
+      "description": "Estimated or actual date or date-time the condition began, in the opinion of the clinician.",
+      "type_category": "primitive",
+      "type_primitive": "datetime",
+      "required": false
+    },
+    {
+      "path": "Condition.abatementDateTime",
+      "label": "Abatement Date Time",
+      "description": "The date or estimated date that the condition resolved or went into remission.",
+      "type_category": "primitive",
+      "type_primitive": "datetime",
+      "required": false
+    },
+    {
+      "path": "Condition.recordedDate",
+      "label": "Recorded Date",
+      "description": "The recordedDate represents when this particular Condition record was created in the system.",
+      "type_category": "primitive",
+      "type_primitive": "date",
+      "required": false
+    },
+    {
+      "path": "Condition.recorder",
+      "label": "Recorder",
+      "description": "Individual who recorded the record and takes responsibility for its content.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "Condition.note",
+      "label": "Note",
+      "description": "Additional information about the Condition. This is a general notes/comments entry for description of the Condition, its diagnosis and prognosis.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    }
+  ]
+}

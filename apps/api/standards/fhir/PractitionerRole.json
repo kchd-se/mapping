@@ -1,0 +1,102 @@
+{
+  "schema_name": "FHIR_PractitionerRole",
+  "format_id": "fhir_profile",
+  "version": "R4",
+  "description": "FHIR R4 PractitionerRole resource — a specific set of Roles/Locations/specialties/services that a practitioner may perform at an organization for a period of time.",
+  "metadata_tags": {
+    "source": "bundled",
+    "standard": "FHIR",
+    "standard_version": "R4",
+    "resource": "PractitionerRole"
+  },
+  "fields": [
+    {
+      "path": "PractitionerRole.id",
+      "label": "Resource ID",
+      "description": "The logical id of the resource, as used in the URL for the resource.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "PractitionerRole.identifier",
+      "label": "Identifier",
+      "description": "Business Identifiers that are specific to a role/location.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "PractitionerRole.active",
+      "label": "Active",
+      "description": "Whether this practitioner role record is in active use.",
+      "type_category": "primitive",
+      "type_primitive": "boolean",
+      "required": false
+    },
+    {
+      "path": "PractitionerRole.period",
+      "label": "Period",
+      "description": "The period during which the person is authorized to act as a practitioner in these role(s) for the organization.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "PractitionerRole.practitioner",
+      "label": "Practitioner",
+      "description": "Practitioner that is able to provide the defined services for the organization.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "PractitionerRole.organization",
+      "label": "Organization",
+      "description": "The organization where the Practitioner performs the roles associated.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "PractitionerRole.code",
+      "label": "Code",
+      "description": "Roles which this practitioner is authorized to perform for the organization. e.g. doctor | nurse | pharmacist.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "PractitionerRole.specialty",
+      "label": "Specialty",
+      "description": "Specific specialty of the practitioner. e.g. General practice, Internal medicine, Pediatrics.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "PractitionerRole.location",
+      "label": "Location",
+      "description": "The location(s) at which this practitioner provides care.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "PractitionerRole.telecom",
+      "label": "Telecom",
+      "description": "Contact details that are specific to the role/location/service.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "PractitionerRole.availableTime",
+      "label": "Available Time",
+      "description": "A collection of times the practitioner is available or performing this role at the location and/or healthcareservice.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    }
+  ]
+}

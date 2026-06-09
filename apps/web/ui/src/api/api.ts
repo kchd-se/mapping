@@ -768,6 +768,93 @@ export const createMappingVersion = async (
   );
 };
 
+/**
+ * @summary Update Mapping Version
+ */
+export const getUpdateMappingVersionUrl = (projectId: string, versionId: string) => {
+  return `/projects/${projectId}/mappings/${versionId}`;
+};
+
+export const updateMappingVersion = async (
+  projectId: string,
+  versionId: string,
+  updateMappingVersionRequest: UpdateMappingVersionRequest,
+  options?: RequestInit,
+): Promise<MappingVersionResponse> => {
+  return customFetch<MappingVersionResponse>(
+    getUpdateMappingVersionUrl(projectId, versionId),
+    {
+      ...options,
+      method: "PUT",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(updateMappingVersionRequest),
+    },
+  );
+};
+
+export const getUpdateMappingVersionMutationOptions = <
+  TError = ErrorType<HTTPValidationError>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateMappingVersion>>,
+    TError,
+    { projectId: string; versionId: string; data: BodyType<UpdateMappingVersionRequest> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateMappingVersion>>,
+  TError,
+  { projectId: string; versionId: string; data: BodyType<UpdateMappingVersionRequest> },
+  TContext
+> => {
+  const mutationKey = ["updateMappingVersion"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateMappingVersion>>,
+    { projectId: string; versionId: string; data: BodyType<UpdateMappingVersionRequest> }
+  > = (props) => {
+    const { projectId, versionId, data } = props ?? {};
+    return updateMappingVersion(projectId, versionId, data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type UpdateMappingVersionMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateMappingVersion>>
+>;
+export type UpdateMappingVersionMutationBody = BodyType<UpdateMappingVersionRequest>;
+export type UpdateMappingVersionMutationError = ErrorType<HTTPValidationError>;
+
+export const useUpdateMappingVersion = <
+  TError = ErrorType<HTTPValidationError>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateMappingVersion>>,
+    TError,
+    { projectId: string; versionId: string; data: BodyType<UpdateMappingVersionRequest> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof updateMappingVersion>>,
+  TError,
+  { projectId: string; versionId: string; data: BodyType<UpdateMappingVersionRequest> },
+  TContext
+> => {
+  return useMutation(getUpdateMappingVersionMutationOptions(options));
+};
+
 export const getCreateMappingVersionMutationOptions = <
   TError = ErrorType<HTTPValidationError>,
   TContext = unknown,

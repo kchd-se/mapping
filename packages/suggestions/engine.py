@@ -30,8 +30,10 @@ from packages.suggestions.models import (
     SuggestionCandidate,
     SuggestionResult,
 )
+from packages.suggestions.semantic.interface import SemanticSimilarityProvider
 from packages.suggestions.strategies import (
     ScoringStrategy,
+    SemanticScoringStrategy,
     StrategyScore,
     default_strategies,
 )
@@ -45,6 +47,12 @@ class SuggestionEngine:
             strategies.default_strategies() if not provided.
         top_k: Maximum number of candidates to return per target field.
         min_confidence: Minimum composite score for a candidate to be included.
+        semantic_provider: Optional SemanticSimilarityProvider.  When supplied,
+            a SemanticScoringStrategy is appended to the strategy list.  The
+            engine's weighted-average normalisation means existing strategy
+            weights need no modification.
+        semantic_weight: Weight for the semantic strategy when
+            ``semantic_provider`` is given.  Default 0.15.
     """
 
     def __init__(
@@ -52,8 +60,15 @@ class SuggestionEngine:
         strategies: Optional[List[ScoringStrategy]] = None,
         top_k: int = 5,
         min_confidence: float = 0.0,
+        semantic_provider: Optional[SemanticSimilarityProvider] = None,
+        semantic_weight: float = 0.15,
     ) -> None:
-        self._strategies = strategies if strategies is not None else default_strategies()
+        base = strategies if strategies is not None else default_strategies()
+        if semantic_provider is not None:
+            base = list(base) + [
+                SemanticScoringStrategy(semantic_provider, weight=semantic_weight)
+            ]
+        self._strategies = base
         self._top_k = top_k
         self._min_confidence = min_confidence
 

@@ -1,0 +1,158 @@
+{
+  "schema_name": "OMOP_MEASUREMENT",
+  "format_id": "omop_cdm",
+  "version": "5.4",
+  "description": "OMOP CDM v5.4 MEASUREMENT table — structured values (numerical or categorical) obtained through systematic and standardized examination or testing of a Person or Person's sample. Includes laboratory tests, vital signs, and clinical assessments. Coded using LOINC.",
+  "metadata_tags": {
+    "source": "bundled",
+    "standard": "OMOP CDM",
+    "standard_version": "5.4",
+    "table": "MEASUREMENT"
+  },
+  "fields": [
+    {
+      "path": "measurement.measurement_id",
+      "label": "Measurement ID",
+      "description": "A unique identifier for each Measurement.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "measurement.person_id",
+      "label": "Person ID",
+      "description": "A foreign key identifier to the Person about whom the measurement was recorded. The demographic details of that Person are stored in the PERSON table.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "measurement.measurement_concept_id",
+      "label": "Measurement Concept ID",
+      "description": "A foreign key to the standard measurement concept identifier in the Standardized Vocabularies. These are LOINC concepts.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "measurement.measurement_date",
+      "label": "Measurement Date",
+      "description": "The date of the Measurement.",
+      "type_category": "primitive",
+      "type_primitive": "date",
+      "required": true
+    },
+    {
+      "path": "measurement.measurement_datetime",
+      "label": "Measurement Datetime",
+      "description": "The date and time of the Measurement.",
+      "type_category": "primitive",
+      "type_primitive": "datetime",
+      "required": false
+    },
+    {
+      "path": "measurement.measurement_type_concept_id",
+      "label": "Measurement Type Concept ID",
+      "description": "A foreign key to the predefined Concept in the Standardized Vocabularies reflecting the provenance from where the Measurement record was recorded.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": true
+    },
+    {
+      "path": "measurement.operator_concept_id",
+      "label": "Operator Concept ID",
+      "description": "A foreign key identifier to the mathematical operator that is applied to the value_as_number. Operators are (=, ≠, <, ≤, >, ≥).",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "measurement.value_as_number",
+      "label": "Value As Number",
+      "description": "A Measurement result where the result is expressed as a numeric value.",
+      "type_category": "primitive",
+      "type_primitive": "decimal",
+      "required": false
+    },
+    {
+      "path": "measurement.value_as_concept_id",
+      "label": "Value As Concept ID",
+      "description": "A foreign key to a Measurement result represented as a Concept from the Standardized Vocabularies (e.g. positive/negative, present/absent).",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "measurement.unit_concept_id",
+      "label": "Unit Concept ID",
+      "description": "A foreign key to a Standard Concept identifier for the unit of the Measurement value.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "measurement.range_low",
+      "label": "Range Low",
+      "description": "The lower limit of the normal range of the Measurement result. The lower range is assumed to be of the same unit of measure as the Measurement value.",
+      "type_category": "primitive",
+      "type_primitive": "decimal",
+      "required": false
+    },
+    {
+      "path": "measurement.range_high",
+      "label": "Range High",
+      "description": "The upper limit of the normal range of the Measurement result. The upper range is assumed to be of the same unit of measure as the Measurement value.",
+      "type_category": "primitive",
+      "type_primitive": "decimal",
+      "required": false
+    },
+    {
+      "path": "measurement.provider_id",
+      "label": "Provider ID",
+      "description": "A foreign key to the provider in the PROVIDER table who was responsible for initiating or affirming the Measurement.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "measurement.visit_occurrence_id",
+      "label": "Visit Occurrence ID",
+      "description": "A foreign key to the Visit in the VISIT_OCCURRENCE table during which the Measurement was recorded.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "measurement.measurement_source_value",
+      "label": "Measurement Source Value",
+      "description": "The Measurement name as it appears in the source data. This code is mapped to a Standard Concept in the Standardized Vocabularies and the original code is stored here for reference.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "measurement.measurement_source_concept_id",
+      "label": "Measurement Source Concept ID",
+      "description": "A foreign key to a Concept in the Standard Vocabularies that refers to the code used in the source.",
+      "type_category": "primitive",
+      "type_primitive": "integer",
+      "required": false
+    },
+    {
+      "path": "measurement.unit_source_value",
+      "label": "Unit Source Value",
+      "description": "The source code for the unit as it appears in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    },
+    {
+      "path": "measurement.value_source_value",
+      "label": "Value Source Value",
+      "description": "The source value associated with the content of the value_as_number or value_as_concept_id as stored in the source data.",
+      "type_category": "primitive",
+      "type_primitive": "string",
+      "required": false
+    }
+  ]
+}
