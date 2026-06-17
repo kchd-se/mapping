@@ -1,83 +1,149 @@
-# PowerPoint 1: Så mappade vi mot FHIR i pocken
+# Presentation 1: Så gjorde vi i pocken
 
-**Syfte:** Förklara hur kataraktpiloten mappade mot FHIR.
-**Längd:** ca 10–12 slides. Håll det enkelt. En tanke per slide.
+*Talarmanus + slides. Skrivet för att läsas högt. En idé per slide.*
 
 ---
 
-## Slide 1 — Titel
-- Rubrik: "Så mappade vi mot FHIR i pocken"
-- Underrubrik: Kataraktpiloten med Västra Götalandsregionen
-- Talarstöd: Det här är ett bevis på att metoden fungerar.
+## Läs det här först (60 sekunder)
 
-## Slide 2 — Vad vi gjorde
-- Vi tog regionens väntetidsdata.
-- Vi mappade den till FHIR R4.
-- Vi gjorde det på aggregerad nivå (statistik, inte enskilda patienter).
-- Talarstöd: Ett första, avgränsat steg. Inte hela flödet.
+Vi tog ett vanligt tal ur Västra Götalandsregionens system — hur många patienter som väntat
+länge på en starroperation. Sedan översatte vi det talet till ett gemensamt språk som andra
+kan läsa: FHIR. Vi gjorde det på ett kontrollerat sätt, ett fält i taget, och vi skrev ner
+varför varje koppling var rätt. Det viktiga: regionens data lämnade aldrig regionen. Vi körde
+koden hemma hos dem och skickade bara svaret vidare. Det blev körbar kod som en dator kunde
+godkänna. Och vi var ärliga med vad vi bevisade och inte bevisade. Det är hela poängen med
+pocken: vi visade att metoden håller.
 
-## Slide 3 — Hur vi körde det
-- Koden kördes i regionens egen miljö.
-- Regionen behöll kontrollen över sin data.
-- Bara resultatet skickades vidare.
-- Resultatet sammanställdes centralt.
-- Talarstöd: Detta kallas federerad körning.
+## Miniordlista (säg det så här)
 
-## Slide 4 — Metoden i sju steg
-1. Inventera nyckeltalen.
-2. Slå mot FHIR R4-specen.
-3. Slå mot svenska profiler och OID-register.
-4. Fatta designbesluten.
-5. Skapa VQL-vyn.
-6. Testa mot testdata.
-7. Logga osäkerheterna.
-- Talarstöd: Stegen är nedskrivna och kan återanvändas.
+- **Mappning** = översättning. Att säga samma sak på ett annat språk.
+- **FHIR** = ett gemensamt språk för vårddata, som andra system och länder förstår.
+- **Fält** = en enskild ruta med data, t.ex. "antal som väntat över 90 dagar".
+- **Federerat** = data stannar hemma. Vi skickar receptet, inte råvarorna.
+- **Validera** = en dator kontrollerar att resultatet är rätt byggt.
 
-## Slide 5 — Hur vi mappade varje variabel
-- Vi tog en kolumn i taget.
-- Vi läste vad FHIR-specen säger att fältet betyder.
-- Vi jämförde med vad kolumnen faktiskt innehåller.
-- Bara om de betyder samma sak kopplade vi ihop dem.
-- Talarstöd: Vi prövar betydelse, inte bara form.
+---
 
-## Slide 6 — Fyra grunder för varje koppling
-- 1. Bekräftad mot FHIR R4-specen.
-- 2. Bekräftad svensk URI med källa.
-- 3. Provisorisk URI (samlad på ett ställe, byts senare).
-- 4. Eget designbeslut med motivering.
-- Talarstöd: Varje val har en uttalad grund. Inget är gissat i tysthet.
+## Slide 1 — Så gjorde vi i pocken
 
-## Slide 7 — Kvaliteten testades
-- Fem mappningar var giltig FHIR men fel element.
-- Vi hittade dem och rättade dem.
-- Talarstöd: Det visar att kontrollen fångar verkliga fel.
+**På skärmen:** Titeln. En bild på ett öga eller en kö.
+
+**Du säger:**
+"Det här är berättelsen om hur vi tog ett tal ur ett av regionens system och översatte det så
+att resten av Sverige och Europa kan läsa det. Vi gjorde det med starroperationer i Västra
+Götaland. Och det fungerade."
+
+---
+
+## Slide 2 — Problemet vi ville lösa
+
+**På skärmen:** Två system som inte förstår varandra. En frågande min emellan.
+
+**Du säger:**
+"Varje region har sin data i sina egna system, på sitt eget sätt. När någon utanför vill ha den —
+Socialstyrelsen, ett kvalitetsregister, en forskare — passar den inte. Idag översätts det för hand,
+om och om igen. Vi ville visa att det går att göra prydligt och pålitligt."
+
+---
+
+## Slide 3 — Vad vi konkret gjorde
+
+**På skärmen:** Ett tal till vänster, FHIR-logotyp till höger, en pil emellan.
+
+**Exempel:** Antalet patienter som väntat på en starroperation → ett fält i en FHIR-rapport.
+
+**Du säger:**
+"Vi tog väntetiderna för starroperationer i Västra Götaland. Alltså färdiga siffror — hur många
+som väntat, hur länge. Inga enskilda patienter, bara statistik. Och vi översatte de siffrorna
+till FHIR, det gemensamma språket."
+
+---
+
+## Slide 4 — Datan lämnade aldrig regionen
+
+**På skärmen:** Ett hus (regionen) med data kvar inuti. Bara en liten kuvert-pil går ut.
+
+**Exempel:** Koden kördes inne i VGR:s miljö. Bara det färdiga svaret skickades vidare.
+
+**Du säger:**
+"Det här är viktigt. Vi flyttade inte regionens data någonstans. Vi skickade vårt recept till
+deras kök, de lagade rätten hemma, och bara den färdiga rätten skickades ut. Regionen behöll
+hela tiden kontrollen. Det kallas federerat."
+
+---
+
+## Slide 5 — Hur vi översatte ett enda fält
+
+**På skärmen:** Två rutor sida vid sida. Vänster: "kolumn i VGR:s system". Höger: "fält i FHIR".
+En förstoringsglas-ikon över dem.
+
+**Exempel:** Vi läste vad FHIR säger att fältet betyder. Vi läste vad kolumnen faktiskt innehåller.
+Vi kopplade ihop dem bara om de betyder samma sak.
+
+**Du säger:**
+"Vi tog ett fält i taget. För varje fält ställde vi en enkel fråga: betyder den här kolumnen
+verkligen samma sak som det här FHIR-fältet? Vi gissade inte. Vi jämförde definition mot
+definition, och kopplade bara ihop dem när de matchade på riktigt."
+
+---
+
+## Slide 6 — Varför vi litade på varje koppling
+
+**På skärmen:** Fyra enkla ikoner i rad: bok, flagga, klocka, glödlampa.
+
+**Exempel:** Varje koppling vilade på en av fyra grunder:
+1. Det står svart på vitt i FHIR-specifikationen.
+2. Det finns en svensk officiell källa.
+3. Vi använde en tillfällig adress tills den rätta är spikad.
+4. Vi tog ett eget beslut — och skrev ner varför.
+
+**Du säger:**
+"För varje koppling kunde vi svara på frågan 'hur vet ni att det är rätt?'. Antingen stod det i
+specifikationen, eller fanns en svensk källa, eller så satte vi en tillfällig lösning vi kan byta
+senare, eller så tog vi ett eget beslut och motiverade det. Inget var en tyst gissning."
+
+---
+
+## Slide 7 — När det såg rätt ut men var fel
+
+**På skärmen:** En bock som blir ett kryss. Texten "5 gånger".
+
+**Exempel:** Fem kopplingar var korrekt byggd FHIR — men siffran hamnade i fel fält. Granskningen
+fångade dem, och vi rättade dem.
+
+**Du säger:**
+"Här är det mest lärorika. Fem gånger var översättningen tekniskt felfri men ändå fel — siffran
+låg i fel ruta. En dator hade sagt 'godkänt'. En människa såg att det var fel ändå. Det är därför
+vi kontrollerar betydelsen, inte bara formen."
+
+---
 
 ## Slide 8 — Det blev körbar kod
-- Vi byggde en referens i Python.
-- Den producerade en FHIR Bundle.
-- Den validerades mot R4.
-- Talarstöd: Från beskrivning till något som faktiskt kör.
 
-## Slide 9 — Den ärliga gränsen
-- Ingen maskin kan bevisa att en mappning är "rätt".
-- En människa som kan både källan och målet måste granska.
-- Maskinen sänker arbetet och gör besluten spårbara.
-- Talarstöd: Var ärlig med detta. Det gör grunden trovärdig.
+**På skärmen:** En liten kodsnutt som blir en grön bock ("validerad").
 
-## Slide 10 — Vad piloten bevisade
-- En mappning kan byggas, dokumenteras och verifieras.
-- Samma kod kan köras i regionen och sammanställas centralt.
-- Ett nytt målformat kan kopplas in utan att byta metod.
-- Talarstöd: Tre saker som hela målbilden vilar på.
+**Exempel:** Vi byggde en referens i Python. Den producerade en färdig FHIR-rapport. En dator
+kontrollerade den och godkände den mot standarden.
 
-## Slide 11 — Vad piloten inte bevisade
-- Inte openEHR-kärnan.
-- Inte patientnivå (bara aggregerad statistik).
-- Inte återanvändning över alla fyra pass.
-- Talarstöd: Säg det rakt. Det visar att vi vet var vi står.
+**Du säger:**
+"Det här var inte bara ett dokument. Vi skrev kod som faktiskt körde, spottade ut en färdig
+FHIR-rapport, och en dator godkände att den var rätt byggd. Alltså: från idé till något som
+fungerar på riktigt."
 
-## Slide 12 — Avslut
-- Piloten är en tidig, handkörd version av motorn.
-- Metoden, verifierbarheten och federationen är bevisade.
-- Nästa steg är att skala upp med en motor.
-- Talarstöd: Brygga över till presentation 2 om helheten.
+---
+
+## Slide 9 — Vad vi bevisade, och var gränsen går
+
+**På skärmen:** Två kolumner. "Vi visade" och "Vi visade inte ännu".
+
+**Exempel:**
+- Vi visade: en översättning kan byggas, dokumenteras och granskas; samma kod kan köras i regionen
+  och samlas centralt; en ny mottagare kan kopplas in utan att byta metod.
+- Vi visade inte ännu: hela patientresan, bara aggregerad statistik.
+
+**Du säger:**
+"Vi bevisade att metoden håller, att den går att köra hemma hos regionen, och att den går att
+återanvända. Vi bevisade inte hela patientresan — vi körde statistik, inte enskilda patienter.
+Och en sak till: ingen maskin kan på egen hand garantera att en översättning är rätt. Det krävs
+en människa som kan både källan och målet. Det leder oss till nästa presentation — hur hela
+maskinen ser ut när den är färdig."
