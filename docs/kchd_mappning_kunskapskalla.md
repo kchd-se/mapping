@@ -73,6 +73,8 @@ Kataraktpiloten med Västra Götalandsregionen byggde en mappning från regionen
 
 Varje koppling vilar på en av fyra evidensgrunder: bekräftad mot R4-specen, bekräftad svensk system-URI med källa, provisorisk fallback-URI samlad i ref_fhir_system, eller eget designbeslut med motivering. Den semantiska kontrollen är prövad: fem mappningar var giltig FHIR och ändå fel element och korrigerades, vilket visar att metoden prövar betydelse och inte bara form. En körbar Python-referens producerade en FHIR Bundle som validerades mot R4.
 
+> 🔎 **Under verifiering (ÖF-01):** Texten ovan tillskriver upptäckten av de fem felen den mänskliga granskningen. Det utreds om det i praktiken var en AI som fångade dem i ett kvalitetssäkringssteg. Påståendet står kvar oförändrat tills frågan är avgjord — se [`oppna-fragor.md`](./oppna-fragor.md).
+
 ### 12. Hur piloten placerar sig i målbilden
 
 Detta avsnitt skiljer design från bevis, och det är avgörande att det står rätt.

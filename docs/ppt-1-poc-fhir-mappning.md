@@ -106,6 +106,10 @@ senare, eller så tog vi ett eget beslut och motiverade det. Inget var en tyst g
 
 ## Slide 7 — När det såg rätt ut men var fel
 
+> 🔎 **Under verifiering (ÖF-01):** Det utreds om det i praktiken var en AI som fångade de fem felen
+> i ett kvalitetssäkringssteg, snarare än (enbart) en människa vid manuell granskning. Texten nedan
+> står kvar oförändrad tills frågan är avgjord — se [`oppna-fragor.md`](./oppna-fragor.md).
+
 **På skärmen:** En bock som blir ett kryss. Texten "5 gånger".
 
 **Exempel:** Fem kopplingar var korrekt byggd FHIR — men siffran hamnade i fel fält. Granskningen
