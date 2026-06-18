@@ -106,19 +106,18 @@ senare, eller så tog vi ett eget beslut och motiverade det. Inget var en tyst g
 
 ## Slide 7 — När det såg rätt ut men var fel
 
-> 🔎 **Under verifiering (ÖF-01):** Det utreds om det i praktiken var en AI som fångade de fem felen
-> i ett kvalitetssäkringssteg, snarare än (enbart) en människa vid manuell granskning. Texten nedan
-> står kvar oförändrad tills frågan är avgjord — se [`oppna-fragor.md`](./oppna-fragor.md).
-
 **På skärmen:** En bock som blir ett kryss. Texten "5 gånger".
 
-**Exempel:** Fem kopplingar var korrekt byggd FHIR — men siffran hamnade i fel fält. Granskningen
-fångade dem, och vi rättade dem.
+**Exempel:** Fem kopplingar var korrekt byggd FHIR — men siffran hamnade i fel fält. Ett separat
+granskningssteg läste varje fälts definition mot vad siffran faktiskt betydde och fångade dem. I
+pocken kördes det steget med AI — samma AI som gjort utkastet.
 
 **Du säger:**
 "Här är det mest lärorika. Fem gånger var översättningen tekniskt felfri men ändå fel — siffran
-låg i fel ruta. En dator hade sagt 'godkänt'. En människa såg att det var fel ändå. Det är därför
-vi kontrollerar betydelsen, inte bara formen."
+låg i fel ruta. En formell kontroll hade sagt 'giltig FHIR'. Det som såg felet var ett separat
+granskningssteg som jämförde betydelse mot betydelse — i pocken körde vi det med AI, inte en
+människa. Lärdomen är dubbel: kontrollera betydelsen och inte bara formen, och lita inte på första
+utkastet — kör alltid det granskande steget. Människan är kvar som den som slutligt godkänner."
 
 ---
 
@@ -148,6 +147,7 @@ fungerar på riktigt."
 **Du säger:**
 "Vi bevisade att metoden håller, att den går att köra hemma hos regionen, och att den går att
 återanvända. Vi bevisade inte hela patientresan — vi körde statistik, inte enskilda patienter.
-Och en sak till: ingen maskin kan på egen hand garantera att en översättning är rätt. Det krävs
-en människa som kan både källan och målet. Det leder oss till nästa presentation — hur hela
-maskinen ser ut när den är färdig."
+Och en sak till: en formell validering räcker inte för att garantera att en översättning är rätt —
+det krävs ett granskande steg som jämför betydelse, och en människa som slutligt godkänner och kan
+både källan och målet. Det leder oss till nästa presentation — hur hela maskinen ser ut när den är
+färdig."

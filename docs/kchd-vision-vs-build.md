@@ -122,8 +122,9 @@ Det här är de konkreta stegen som flyttar verktyget mot målbilden, ordnade ef
 
 4. **Slut lärloopen mellan audit och förslag (Spår C3).** `AuditEvent` fångar redan godkännanden och
    korrigeringar. Mata tillbaka dem som signal till `SuggestionEngine` (t.ex. en strategi som väger upp
-   tidigare godkända mappningar av likartade fält). Pilotens fem korrigeringar är de första
-   träningsexemplen — målbildens "varje kvalitetssäkring förbättrar maskinen".
+   tidigare godkända mappningar av likartade fält). Pilotens fem korrigeringar — som fångades av ett
+   separat AI-verifieringssteg, inte av en mänsklig granskare — är de första träningsexemplen och
+   själva belägget för målbildens "varje kvalitetssäkring förbättrar maskinen".
 
 5. **Förtydliga Datakatalogens bredare roll vs. repots katalog.** Repots `CatalogService` täcker
    schema-/registeruppslag, men målbildens Datakatalog gör mer: lineage källa→OMOP, GSIM-export och
