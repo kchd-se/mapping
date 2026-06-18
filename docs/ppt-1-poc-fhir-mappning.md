@@ -117,7 +117,9 @@ pocken kördes det steget med AI — samma AI som gjort utkastet.
 låg i fel ruta. En formell kontroll hade sagt 'giltig FHIR'. Det som såg felet var ett separat
 granskningssteg som jämförde betydelse mot betydelse — i pocken körde vi det med AI, inte en
 människa. Lärdomen är dubbel: kontrollera betydelsen och inte bara formen, och lita inte på första
-utkastet — kör alltid det granskande steget. Människan är kvar som den som slutligt godkänner."
+utkastet — kör alltid det granskande steget. Människan är kvar som den som slutligt godkänner, och
+den granskningen är obligatorisk. Hos oss innebar den ingen ändring — vi accepterade AI:ns förslag
+till fullo, just för att granskningssteget redan fångat felen."
 
 ---
 

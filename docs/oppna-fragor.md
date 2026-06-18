@@ -59,6 +59,10 @@ fångade alla fem felen, genom att läsa R4-specens definition mot kolumnens fak
 Felen låg på **patientnivå (radnivå, fas 4)**. Människan i loopen kvarstår som den som slutligt
 **godkänner** mappningen, men var inte den som **fångade** felen.
 
+**Den mänskliga granskningen är obligatorisk** och ska alltid ske. I kataraktpiloten innebar den dock
+**ingen ändring** — människan accepterade AI:ns mappningsförslag **till fullo**, just därför att
+AI-verifieringssteget redan hade fångat och rättat de fem felen.
+
 ### Vad som uppdaterades till följd
 - `docs/ppt-1-poc-fhir-mappning.md` slide 7 (och slide 9): granskningssteget (AI) får sin roll; behåller
   att en *formell* validering ensam inte räcker; människan godkänner slutligt.
