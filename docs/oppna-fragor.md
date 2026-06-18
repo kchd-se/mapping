@@ -11,7 +11,7 @@ bekräftat svaret — då uppdateras de berörda filerna och raden flyttas till 
 
 ## ÖF-01 · Vem/vad upptäckte de fem semantiska felen i kataraktpiloten?
 
-**Status:** 🔎 Under verifiering (2026-06-18) — uppgiftslämnaren letar efter källa.
+**Status:** ✅ Avgjord (2026-06-18) — bekräftat mot pilotens källfiler (se "Avgörande" nedan).
 
 ### Vad dokumenten säger idag
 Nuvarande text tillskriver upptäckten en **människa**, och använder kontrasten "maskin godkänner,
@@ -43,16 +43,37 @@ smygas in — det måste formuleras om medvetet och konsekvent på alla tre stä
 Flaggade AI:n bara **kandidater** som en människa sedan bekräftade (AI föreslår, människa avgör), eller
 fångade AI:n felen **helt själv**? Formuleringen måste spegla exakt vilket.
 
-### Om det bekräftas — så här uppdateras texten
-- POC slide 7: skriv om så att QA-steget (AI) får sin roll, men behåll att *strukturell* validering
-  ensam inte räcker. Undvik att överdriva åt något håll.
-- Kunskapskällan §11 och §13: nyansera "den mänskliga bedömningen" till att beskriva samspelet
-  maskin-QA + mänsklig bekräftelse, i linje med underfrågans svar.
-- Speglas i `docs/flode-byggt-vs-malbild.md` (raden om "Lärande" / människan i loopen) och i
-  `docs/kchd-vision-vs-build.md` §5 punkt 4 (lärloopen audit→förslag).
+### Avgörande (2026-06-18)
+Bekräftat mot pilotens egna källfiler, som uppgiftslämnaren tillhandahöll:
+
+- `fhir_mappning_metod.md` §5: "Där hittade och korrigerade AI (Claude) fem mappningar … samma AI hade
+  genererat den ursprungliga mappningen, och det var i ett separat verifieringssteg — inte genom
+  mänsklig granskning — som felen upptäcktes."
+- `fhir_mappning_analys.md`, avsnittet "Verifiering av radnivå-mappningar (fas 4)": "Felen … upptäcktes
+  också av AI, i ett separat verifieringssteg … Ingen mänsklig granskare var inblandad i att hitta dem."
+
+**Svar:** Det var en **AI** (samma AI som genererade utkastet) som i ett **separat verifieringssteg**
+fångade alla fem felen, genom att läsa R4-specens definition mot kolumnens faktiska innebörd.
+
+**Underfrågan:** AI:n fångade felen **helt själv** — inte som kandidater en människa sedan bekräftade.
+Felen låg på **patientnivå (radnivå, fas 4)**. Människan i loopen kvarstår som den som slutligt
+**godkänner** mappningen, men var inte den som **fångade** felen.
+
+**Den mänskliga granskningen är obligatorisk** och ska alltid ske. I kataraktpiloten innebar den dock
+**ingen ändring** — människan accepterade AI:ns mappningsförslag **till fullo**, just därför att
+AI-verifieringssteget redan hade fångat och rättat de fem felen.
+
+### Vad som uppdaterades till följd
+- `docs/ppt-1-poc-fhir-mappning.md` slide 7 (och slide 9): granskningssteget (AI) får sin roll; behåller
+  att en *formell* validering ensam inte räcker; människan godkänner slutligt.
+- `docs/kchd_mappning_kunskapskalla.md` §11 (flaggan ersatt med avgjort-not), §12 (patientnivå-gränsen
+  nyanserad) och §13 ("den mänskliga bedömningen" nyanserad till AI-QA + mänskligt godkännande).
+- `docs/kchd-vision-vs-build.md` §5 punkt 4 (lärloopen — korrigeringarna kom ur ett AI-verifieringssteg).
+- Kunskapsutvecklings-sajtens FHIR-vyer (`web/index.html`): `MappningFhirForklarat` och `MappningKpi16`.
 
 ---
 
 ## Avgjorda frågor
 
-_(inga ännu)_
+- **ÖF-01 — Vem/vad upptäckte de fem semantiska felen?** ✅ Avgjord 2026-06-18. Svar: ett separat
+  **AI-verifieringssteg** (inte en människa) fångade alla fem. Fullständig logg ovan.

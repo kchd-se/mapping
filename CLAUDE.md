@@ -71,12 +71,11 @@ granska & skapa mappningsversion → validera → exportera artefakt + SQL.
 
 ## Öppna frågor (läs `docs/oppna-fragor.md`)
 
-- **ÖF-01 — Vem/vad upptäckte de fem semantiska felen i kataraktpiloten?** Dokumenten säger idag att
-  en **människa** fångade dem ("en dator hade sagt godkänt, en människa såg felet"). Det utreds om
-  det i praktiken var en **AI i ett kvalitetssäkringssteg**. Detta är ett *bärande* argument för
-  människan-i-loopen — **ändra inte** påståendena i `ppt-1-poc-fhir-mappning.md` eller
-  `kchd_mappning_kunskapskalla.md` (§11/§13) förrän frågan är avgjord. Berörda ställen är flaggade
-  med "🔎 Under verifiering (ÖF-01)".
+- **ÖF-01 — Vem/vad upptäckte de fem semantiska felen i kataraktpiloten?** ✅ **Avgjord 2026-06-18.**
+  Bekräftat mot pilotens källfiler (`fhir_mappning_metod.md` §5, `fhir_mappning_analys.md`): det var ett
+  **separat AI-verifieringssteg** — inte en mänsklig granskare — som fångade alla fem felen. Människan i
+  loopen kvarstår som den som slutligt **godkänner**. Texterna i `ppt-1-poc-fhir-mappning.md` och
+  `kchd_mappning_kunskapskalla.md` (§11–§13) är uppdaterade; loggen ligger i `docs/oppna-fragor.md`.
 
 ## Arbetssätt i det här repot
 
