@@ -102,6 +102,8 @@ flowchart LR
   SCOPE["Avgränsning: schema-/metadatanivå · ingen patientdata · ingen exekvering"]
 ```
 
+![Flöde A — den byggda lösningen](./img/flode-byggt.png)
+
 ---
 
 ## Flöde B — Målbilden (hela maskinen)
@@ -183,6 +185,8 @@ flowchart LR
   PUB --> EU
 ```
 
+![Flöde B — målbilden](./img/flode-malbild.png)
+
 ---
 
 ## Jämförelsen: var sitter bygget i målbilden?
@@ -225,6 +229,8 @@ flowchart TB
   class imp,can,sug,rule,val,art built;
   class src,pass,term,store,rec,exec vision;
 ```
+
+![Överlagrad jämförelse — grönt = byggt, grått = målbild men ej byggt](./img/flode-jamforelse.png)
 
 ### Jämförelsetabell (samma axlar, båda flödena)
 
