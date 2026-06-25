@@ -1,0 +1,42 @@
+# Mapping-stacken på den DELADE Hetzner-servern (mapping.kchd.se).
+# Frikopplad från entryscape: egen compose, eget projekt. Caddy (entryscape-stacken)
+# når mapping-web via det externa nätet "edge". Startas/uppdateras av serverns
+# self-update-cron (git push till `live` → cron bygger om). Se entryscape
+# deploy/combined/ för server-orkestreringen.
+
+services:
+  mapping-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    image: kchd-mapping-api
+    container_name: mapping-api
+    restart: unless-stopped
+    environment:
+      MAPPING_DATA_DIR: /data
+    volumes:
+      - mapping-data:/data        # snapshot.json → skarp data överlever omstart/redeploy
+    expose:
+      - "8000"
+
+  mapping-web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    image: kchd-mapping-web
+    container_name: mapping-web
+    restart: unless-stopped
+    depends_on:
+      - mapping-api
+    expose:
+      - "8080"
+    networks:
+      - default      # når mapping-api
+      - edge         # Caddy (entryscape-stacken) når mapping-web
+
+volumes:
+  mapping-data:
+
+networks:
+  edge:
+    external: true

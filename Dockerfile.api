@@ -1,0 +1,25 @@
+# Mapping-API (FastAPI) för skarp drift på Hetzner.
+# Schema-only v1: ingen patientdata, ingen skript-exekvering (RL-01/RL-02).
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# Beroenden först (cache-vänligt)
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Applikationskod
+COPY apps ./apps
+COPY packages ./packages
+
+# Persistens: snapshot skrivs hit (monteras som named volume i compose → överlever omstart).
+ENV MAPPING_DATA_DIR=/data \
+    PYTHONUNBUFFERED=1
+RUN mkdir -p /data
+
+EXPOSE 8000
+
+HEALTHCHECK --interval=15s --timeout=5s --retries=10 --start-period=20s \
+  CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/health').getcode()==200 else 1)"
+
+CMD ["python", "-m", "uvicorn", "apps.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
