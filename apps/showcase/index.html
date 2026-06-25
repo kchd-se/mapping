@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mappning — illustrationer</title>
+  <meta name="description" content="Interaktiva illustrationer av mappning till FHIR: pilotens flöde, verktyget i v1, och målbilden." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:#FAFAF7; --ink:#1A1A17; --teal:#377D7A; --tealDark:#2A5F5C; --tealTint:#EAF2F1;
+      --tealLine:#CADFDD; --slate:#44546A; --ochre:#B5772E; --ochreTint:#F6ECDD; --ochreLine:#E4CDA6;
+      --paper:#FFFFFF; --hair:#E8E6DF;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body { background: var(--bg); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; }
+    a { color: inherit; }
+    #root { min-height: 100vh; }
+    .ku-loading { font-family: 'IBM Plex Sans', sans-serif; color: var(--slate); padding: 48px 24px; }
+  </style>
+
+  <!-- window.kuComponents måste finnas innan snippet-skripten körs -->
+  <script>window.kuComponents = window.kuComponents || {};</script>
+
+  <!-- React + ReactDOM + Babel vendoras lokalt (./vendor/) → sajten är självförsörjande,
+       inga externa CDN-beroenden vid körning. Babel v7 = classic JSX-runtime. -->
+  <script src="./vendor/react.js"></script>
+  <script src="./vendor/react-dom.js"></script>
+  <script src="./vendor/babel.js"></script>
+</head>
+<body>
+  <div id="root"><div class="ku-loading">Laddar…</div></div>
+
+  <!-- Komponenterna (registrerar sig i window.kuComponents). Körs före appen nedan.
+       data-presets="react" krävs för att Babel ska transformera JSX i externa skript. -->
+  <script type="text/babel" data-presets="react" src="./components/mappning-flode.jsx"></script>
+  <script type="text/babel" data-presets="react" src="./components/mappning-byggt-verktyg.jsx"></script>
+  <script type="text/babel" data-presets="react" src="./components/mappning-vision-helhet.jsx"></script>
+
+  <!-- Förstasida (grid) + hash-router som öppnar varje komponent som helsida -->
+  <script type="text/babel" data-presets="react">
+    const { useState, useEffect } = React;
+
+    const C = {
+      bg: "#FAFAF7", ink: "#1A1A17", teal: "#377D7A", tealDark: "#2A5F5C",
+      tealTint: "#EAF2F1", tealLine: "#CADFDD", slate: "#44546A",
+      ochre: "#B5772E", ochreTint: "#F6ECDD", ochreLine: "#E4CDA6", paper: "#FFFFFF", hair: "#E8E6DF",
+    };
+    const display = "'Libre Franklin', sans-serif";
+    const body = "'IBM Plex Sans', sans-serif";
+
+    // Manifest: ordning, titlar och beskrivningar för korten. Nyckeln måste matcha
+    // window.kuComponents-registreringen i respektive snippet.
+    const KATALOG = [
+      {
+        key: "MappningFlode", accent: C.teal,
+        tagg: "Pilot · metod",
+        titel: "Hela flödet — variabel till FHIR",
+        beskrivning: "Steg för steg, en uppgift hela vägen: databas → AI → AI-granskning → människa → FHIR-tabellen. Den bevisade kataraktmetoden, med den lärande loopen.",
+      },
+      {
+        key: "MappningByggtVerktyg", accent: C.teal,
+        tagg: "Byggt i repot",
+        titel: "Verktyget i v1 — det som finns",
+        beskrivning: "Källschema → målschema (FHIR/OMOP) → förslag → granska → validering → export. Det som faktiskt är byggt i koden. Håller röda linjerna: ingen exekvering, ingen patientdata.",
+      },
+      {
+        key: "MappningVisionHelhet", accent: C.ochre,
+        tagg: "Målbild · vision",
+        titel: "Hela motorn — målbilden",
+        beskrivning: "Den regiongemensamma utvecklingsmiljön: en motor, fyra pass, fyra kunskapslager, federerad körning och tre-lagers-lagring. Vision, inte byggt.",
+      },
+    ];
+
+    function useHashKey() {
+      const parse = () => {
+        const m = (location.hash || "").replace(/^#\/?/, "");
+        return m || null;
+      };
+      const [key, setKey] = useState(parse());
+      useEffect(() => {
+        const onHash = () => { setKey(parse()); window.scrollTo(0, 0); };
+        window.addEventListener("hashchange", onHash);
+        return () => window.removeEventListener("hashchange", onHash);
+      }, []);
+      return key;
+    }
+
+    function MiniDiagram({ accent }) {
+      // Liten dekorativ pipeline-skiss som visuell förhandstitt på kortet.
+      const dots = [0, 1, 2, 3, 4];
+      return (
+        <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 4 }}>
+          {dots.map((i) => (
+            <React.Fragment key={i}>
+              <span style={{ width: 12, height: 12, borderRadius: 6, background: i % 4 === 3 ? C.ochre : accent, opacity: 0.85, display: "inline-block" }} />
+              {i < dots.length - 1 && <span style={{ flex: "0 0 14px", height: 2, background: C.tealLine }} />}
+            </React.Fragment>
+          ))}
+        </div>
+      );
+    }
+
+    function Hem() {
+      return (
+        <div style={{ minHeight: "100vh", background: C.bg, color: C.ink, fontFamily: body, padding: "56px 24px 80px" }}>
+          <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+            <div style={{ height: 3, width: 64, background: C.teal, marginBottom: 22, borderRadius: 2 }} />
+            <div style={{ fontFamily: body, fontSize: 11, fontWeight: 600, letterSpacing: ".14em", color: C.teal, marginBottom: 10 }}>MAPPNING I DEN REGIONGEMENSAMMA UTVECKLINGSMILJÖN</div>
+            <h1 style={{ fontFamily: display, fontWeight: 800, fontSize: 40, lineHeight: 1.06, margin: "0 0 14px", letterSpacing: "-0.02em", maxWidth: 860 }}>
+              Illustrationer av mappning till FHIR
+            </h1>
+            <p style={{ fontSize: 16.5, lineHeight: 1.7, color: C.slate, margin: "0 0 40px", maxWidth: 760 }}>
+              Tre interaktiva vyer på samma sak — hur vårddata översätts till ett gemensamt språk. Från den bevisade pilotmetoden, via verktyget som faktiskt är byggt, till hela målbilden. Öppna en vy för att utforska den i helskärm.
+            </p>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 18 }}>
+              {KATALOG.map((item) => {
+                const finns = typeof window.kuComponents[item.key] === "function";
+                return (
+                  <a key={item.key} href={finns ? `#/${item.key}` : undefined}
+                    style={{
+                      textDecoration: "none", display: "flex", flexDirection: "column",
+                      background: C.paper, border: `1px solid ${C.hair}`, borderRadius: 16,
+                      padding: "22px 22px 20px", minHeight: 220,
+                      cursor: finns ? "pointer" : "not-allowed", opacity: finns ? 1 : 0.5,
+                      boxShadow: "0 1px 0 rgba(0,0,0,0.02)", transition: "transform .15s ease, box-shadow .15s ease, border-color .15s ease",
+                    }}
+                    onMouseEnter={(e) => { if (!finns) return; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 10px 28px rgba(42,95,92,0.12)"; e.currentTarget.style.borderColor = item.accent; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "0 1px 0 rgba(0,0,0,0.02)"; e.currentTarget.style.borderColor = C.hair; }}
+                  >
+                    <span style={{ alignSelf: "flex-start", fontSize: 10.5, fontWeight: 700, letterSpacing: ".07em", color: item.accent, background: item.accent === C.ochre ? C.ochreTint : C.tealTint, border: `1px solid ${item.accent === C.ochre ? C.ochreLine : C.tealLine}`, borderRadius: 20, padding: "3px 11px", textTransform: "uppercase" }}>{item.tagg}</span>
+                    <h2 style={{ fontFamily: display, fontWeight: 800, fontSize: 21, lineHeight: 1.18, margin: "14px 0 8px", letterSpacing: "-0.01em", color: C.ink }}>{item.titel}</h2>
+                    <p style={{ fontSize: 14, lineHeight: 1.6, color: C.slate, margin: 0, flex: 1 }}>{item.beskrivning}</p>
+                    <MiniDiagram accent={item.accent} />
+                    <span style={{ marginTop: 16, fontFamily: display, fontWeight: 700, fontSize: 14, color: finns ? item.accent : C.slate }}>
+                      {finns ? "Öppna helsida →" : "Kunde inte laddas"}
+                    </span>
+                  </a>
+                );
+              })}
+            </div>
+
+            <div style={{ marginTop: 48, paddingTop: 18, borderTop: `1px solid ${C.hair}`, fontSize: 12.5, color: C.slate, maxWidth: 760, lineHeight: 1.6 }}>
+              Illustrationerna är fristående och kontraktslösa — de visar tänket, inte produktionsdata. Ingen patient-/individdata förekommer.
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function Helsida({ keyName }) {
+      const Komp = window.kuComponents[keyName];
+      const tillbaka = (
+        <a href="#/" style={{
+          position: "fixed", top: 16, left: 16, zIndex: 50, textDecoration: "none",
+          fontFamily: body, fontSize: 13.5, fontWeight: 600, color: C.tealDark,
+          background: "rgba(255,255,255,0.92)", border: `1px solid ${C.tealLine}`,
+          borderRadius: 999, padding: "8px 15px", backdropFilter: "blur(6px)",
+          boxShadow: "0 2px 10px rgba(0,0,0,0.06)",
+        }}>← Alla illustrationer</a>
+      );
+      if (typeof Komp !== "function") {
+        return (
+          <div style={{ minHeight: "100vh", background: C.bg, fontFamily: body, padding: "80px 24px", color: C.slate }}>
+            {tillbaka}
+            <div style={{ maxWidth: 640, margin: "0 auto" }}>
+              <h1 style={{ fontFamily: display, color: C.ink }}>Vyn kunde inte laddas</h1>
+              <p>Komponenten <code>{keyName}</code> är inte registrerad. Kontrollera att <code>components/</code> serveras över http (inte file://).</p>
+            </div>
+          </div>
+        );
+      }
+      return (<>{tillbaka}<Komp /></>);
+    }
+
+    function App() {
+      const key = useHashKey();
+      return key ? <Helsida keyName={key} /> : <Hem />;
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>

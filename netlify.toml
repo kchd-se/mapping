@@ -1,0 +1,13 @@
+# Repo-rotens Netlify-konfig för den statiska showcase-sajten.
+#
+# Vid git-koppling i Netlify-UI:t räcker det nu att välja repot kchd-se/mapping
+# och en branch — Netlify läser denna fil, byter till apps/showcase som
+# arbetskatalog (base) och publicerar mappen direkt. Ingen build, ingen
+# manuell "base directory" behövs.
+#
+# Sajten är självförsörjande (vendorad React/Babel i apps/showcase/vendor/),
+# så ingen pakethämtning eller transpilering sker i Netlifys byggsystem.
+[build]
+  base = "apps/showcase"
+  publish = "."
+  command = ""
