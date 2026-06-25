@@ -10,7 +10,11 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from apps.api import state
 from apps.api.routers import catalog, export, mappings, projects, schemas, suggestions, validation
+
+# HTTP methods that mutate state and therefore trigger a snapshot save.
+_MUTATING_METHODS = frozenset({"POST", "PUT", "PATCH", "DELETE"})
 
 _APP_TITLE = "Healthcare Data Mapping Tool API"
 _APP_VERSION = "1.0.0"
@@ -53,6 +57,31 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+    # ---------------------------------------------------------------------------
+    # Persistence middleware: snapshot state after a successful mutation.
+    # ---------------------------------------------------------------------------
+    @app.middleware("http")
+    async def persist_after_mutation(request: Request, call_next):
+        response = await call_next(request)
+        if (
+            request.method in _MUTATING_METHODS
+            and response.status_code < 400
+        ):
+            # save_state() is a no-op when persistence is disabled (e.g. tests)
+            # and never raises, so a snapshot failure can't break the request.
+            try:
+                state.save_state()
+            except Exception:  # noqa: BLE001 - defensive; save_state already guards
+                pass
+        return response
+
+    # ---------------------------------------------------------------------------
+    # Health check (no auth, no RBAC) — used by deploy healthchecks.
+    # ---------------------------------------------------------------------------
+    @app.get("/health", tags=["health"], include_in_schema=True)
+    async def health() -> dict:
+        return {"status": "ok"}
 
     # ---------------------------------------------------------------------------
     # Routers

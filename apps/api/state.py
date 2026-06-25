@@ -92,7 +92,11 @@ def get_semantic_provider() -> object:
 
 
 def reset_state() -> None:
-    """Reset all in-memory state.  Called by tests to isolate state."""
+    """Reset all in-memory state.  Called by tests to isolate state.
+
+    Deliberately performs **no disk I/O** so tests stay isolated and the
+    persistence layer is never engaged from here.
+    """
     global _audit_log, _catalog, _projects, _mapping_versions, _adapter_registry
     _audit_log.clear()
     _projects.clear()
@@ -102,3 +106,88 @@ def reset_state() -> None:
         adapter_registry=_adapter_registry,
         audit_log=_audit_log,
     )
+
+
+# ---------------------------------------------------------------------------
+# Persistence (optional, file-based snapshot)
+# ---------------------------------------------------------------------------
+
+def _project_pins() -> Dict[str, Dict[str, Any]]:
+    """Lazily reach the schemas router's per-project pin index.
+
+    Imported lazily to avoid a circular import (the schemas router imports
+    ``deps`` which imports this module).
+    """
+    from apps.api.routers.schemas import get_project_pins
+
+    return get_project_pins()
+
+
+def save_state() -> bool:
+    """Persist the current mutable state to disk (no-op if persistence off).
+
+    Returns True if a snapshot was written, False otherwise (including the
+    common case where persistence is disabled, e.g. during tests).  Never
+    raises — persistence failures must not break a request.
+    """
+    from apps.api import persistence
+
+    data_dir = persistence.resolve_data_dir()
+    if data_dir is None:
+        return False
+
+    try:
+        snapshot = persistence.build_snapshot(
+            projects=_projects,
+            mapping_versions=_mapping_versions,
+            audit_log=_audit_log,
+            catalog=_catalog,
+            project_pins=_project_pins(),
+        )
+    except Exception:  # noqa: BLE001 - persistence must never crash a request
+        import logging
+
+        logging.getLogger(__name__).exception("Failed to build state snapshot")
+        return False
+
+    return persistence.write_snapshot(data_dir, snapshot)
+
+
+def load_state() -> bool:
+    """Load a persisted snapshot from disk into the live state, if present.
+
+    Must be called AFTER the bundled standard schemas have been registered so
+    that standards are never duplicated and always win over snapshot copies.
+    Returns True if a snapshot was applied, False otherwise.  Never raises.
+    """
+    from apps.api import persistence
+
+    data_dir = persistence.resolve_data_dir()
+    if data_dir is None:
+        return False
+
+    snapshot = persistence.read_snapshot(data_dir)
+    if not snapshot:
+        return False
+
+    try:
+        persistence.apply_snapshot(
+            snapshot,
+            projects=_projects,
+            mapping_versions=_mapping_versions,
+            audit_log=_audit_log,
+            catalog=_catalog,
+            project_pins=_project_pins(),
+        )
+    except Exception:  # noqa: BLE001 - a bad snapshot must not crash boot
+        import logging
+
+        logging.getLogger(__name__).exception("Failed to apply state snapshot")
+        return False
+
+    return True
+
+
+# Load any persisted snapshot AFTER standards have been registered above.
+# This is a no-op under pytest / when persistence is disabled.
+load_state()

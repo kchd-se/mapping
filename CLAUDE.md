@@ -103,6 +103,22 @@ Två separata saker att publicera, med olika vägar:
   loopen kvarstår som den som slutligt **godkänner**. Texterna i `ppt-1-poc-fhir-mappning.md` och
   `kchd_mappning_kunskapskalla.md` (§11–§13) är uppdaterade; loggen ligger i `docs/oppna-fragor.md`.
 
+## Deploy / drift (skarpt på Hetzner)
+
+Mapping körs skarpt på **https://mapping.kchd.se**, på **samma Hetzner-server** som
+katalog.kchd.se (entryscape) — ingen extra serverkostnad, apparna frikopplade. Full guide:
+[`docs/DEPLOY.md`](docs/DEPLOY.md).
+
+- **Paketering:** `Dockerfile.api` (FastAPI/uvicorn :8000) + `Dockerfile.web` (Vite→nginx,
+  same-origin API-proxy) + `docker-compose.hetzner.yml` (externt `edge`-nät, `mapping-data`-volym).
+- **Lagring:** tillstånd sparas till `MAPPING_DATA_DIR=/data` (snapshot.json i named volume) →
+  skarp data överlever omstart/redeploy. Health: `GET /health`.
+- **Deploy = git push:** servern (cron) hämtar `live`-grenen var 2:e min och bygger om.
+  `git push origin main:live`.
+- **Server-orkestreringen** (delad Caddy/två domäner, self-update) ligger i entryscape-repot:
+  `deploy/combined/` + workflow `deploy-combined.yml`. Engångs-setup: kör den workflowen, lägg
+  serverns deploy-nyckel i detta repo (Settings → Deploy keys, read-only), skapa `live`-grenen.
+
 ## Arbetssätt i det här repot
 
 - Var **källtrogen**: i dokument som skiljer på byggt och målbild — markera bara det som verkligen

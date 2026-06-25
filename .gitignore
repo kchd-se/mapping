@@ -47,3 +47,7 @@ desktop.ini
 *.bak
 *.tmp
 .idea/
+
+# ─── Persistence snapshots (runtime state, not source) ───
+/data/
+

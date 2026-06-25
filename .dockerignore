@@ -1,0 +1,12 @@
+.git
+.venv
+**/__pycache__
+**/*.pyc
+.pytest_cache
+node_modules
+apps/web/ui/node_modules
+apps/web/ui/dist
+data
+*.md
+docs
+opus-input
