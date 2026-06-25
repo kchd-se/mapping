@@ -128,7 +128,7 @@
     const aktivaKallor = new Set(v.lankar.map((l) => l.to));
     const stateColor = (st) => (st === "fix" ? C.ochre : C.green);
 
-    const Cell = ({ children }) => (
+    const Cell = ({ children, count }) => (
       <div style={{ flex: "1 1 0", minWidth: 0, padding: "0 6px", boxSizing: "border-box" }}>{children}</div>
     );
 
@@ -211,7 +211,7 @@
           <div style={{ background: C.paper, border: `1px solid ${C.hair}`, borderRadius: 16, padding: "26px 22px 22px" }}>
             <div style={{ display: "flex", alignItems: "stretch" }}>
               {STEG.map((s, i) => (
-                <Cell key={s.id}>
+                <Cell key={s.id} count={STEG.length}>
                   <div style={{ display: "flex", alignItems: "center", height: "100%" }}>
                     <div style={{ flex: 1 }}>{StegBox(s)}</div>
                     {i < STEG.length - 1 && <div style={{ color: C.tealLine, fontSize: 18, fontWeight: 800, padding: "0 1px" }}>→</div>}
@@ -247,7 +247,7 @@
 
             <div style={{ display: "flex", alignItems: "stretch" }}>
               {KALLOR.map((k) => (
-                <Cell key={k.id}>{KallaBox(k)}</Cell>
+                <Cell key={k.id} count={KALLOR.length}>{KallaBox(k)}</Cell>
               ))}
             </div>
 
