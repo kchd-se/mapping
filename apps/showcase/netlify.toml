@@ -1,6 +1,0 @@
-# Netlify-konfig för den statiska showcase-sajten.
-# Vid git-kopplad deploy: sätt "Base directory" = apps/showcase i Netlify,
-# så läses denna fil och publish-katalogen blir mappen själv. Ingen build behövs.
-[build]
-  publish = "."
-  command = ""
