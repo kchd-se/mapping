@@ -41,13 +41,13 @@ statisk host. Ingen `build` behövs — peka hostens *publish directory* på `ap
 
 | Host | Gratis kommersiellt | Hur |
 |---|---|---|
-| **Netlify** (Starter) | Ja | Publish directory: `apps/showcase`. (Detta repo deployas hit, se nedan.) |
+| **Netlify** (Starter) | Ja | Git-koppla repot — `netlify.toml` i repo-roten sätter `base = apps/showcase` och publicerar mappen. Ingen base-katalog behöver anges manuellt. |
 | **Cloudflare Pages** | Ja | Koppla repot. Build command: *(tomt)*. Output dir: `apps/showcase`. |
 | Vercel | **Nej** för KCHD | Hobby endast icke-kommersiellt; kommersiellt kräver Pro. |
 | GitHub Pages | Endast publika repon | Privat org-repo kräver betald GitHub-plan. |
 
-`netlify.toml` i `apps/showcase/` sätter publish-katalogen så att en git-kopplad Netlify-deploy
-fungerar utan extra konfiguration.
+`netlify.toml` i **repo-roten** styr en git-kopplad Netlify-deploy: välj bara repo + branch
+i Netlify-UI:t, så byter Netlify till `apps/showcase` och publicerar mappen direkt.
 
 ## Lägga till en illustration
 
