@@ -26,12 +26,11 @@
   <!-- window.kuComponents måste finnas innan snippet-skripten körs -->
   <script>window.kuComponents = window.kuComponents || {};</script>
 
-  <!-- React + ReactDOM + Babel (JSX-transform i webbläsaren) — samma harness som snippetsen förutsätter -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <!-- Babel v7: classic JSX-runtime (React.createElement). v8 defaultar till automatic
-       runtime som genererar import-satser och kraschar i ett klassiskt <script>. -->
-  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+  <!-- React + ReactDOM + Babel vendoras lokalt (./vendor/) → sajten är självförsörjande,
+       inga externa CDN-beroenden vid körning. Babel v7 = classic JSX-runtime. -->
+  <script src="./vendor/react.js"></script>
+  <script src="./vendor/react-dom.js"></script>
+  <script src="./vendor/babel.js"></script>
 </head>
 <body>
   <div id="root"><div class="ku-loading">Laddar…</div></div>
