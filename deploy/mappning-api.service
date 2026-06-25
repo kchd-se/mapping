@@ -1,0 +1,20 @@
+# systemd-tjänst för v1:s API (FastAPI/uvicorn).
+# Kopiera till /etc/systemd/system/mappning-api.service
+#
+# OBS: --workers 1 är medvetet. v1 håller allt tillstånd I MINNET
+# (apps/api/state.py). Flera workers = flera separata minnen = trasiga sessioner.
+[Unit]
+Description=KCHD Mappning v1 API (FastAPI/uvicorn)
+After=network.target
+
+[Service]
+Type=simple
+# Byt User till den som äger /opt/mappning om det inte är www-data
+User=www-data
+WorkingDirectory=/opt/mappning
+ExecStart=/opt/mappning/.venv/bin/python -m uvicorn apps.api.main:create_app --factory --host 127.0.0.1 --port 8010 --workers 1
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
