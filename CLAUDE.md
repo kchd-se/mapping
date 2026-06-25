@@ -10,6 +10,9 @@ beskriver den bredare målbilden för "mappning i den regiongemensamma utvecklin
 - **Koden** = den körbara v1-realiseringen av en avgränsad del av målbilden (främst Spår C): import
   av källschema, katalogbläddring, fält-mappningsförslag, validering och artefaktexport.
 - **Dokumenten** (`docs/`) = strategin, målbilden, jämförelser och presentationer.
+- **Showcase-webben** (`apps/showcase/`) = en fristående, statisk sajt (zero-build) som visar tre
+  interaktiva illustrationer av mappning till FHIR. Separat från v1-verktyget.
+- **Driftpaketet** (`deploy/`) = filer för att köra v1 på en egen server (nginx + systemd + lösenord).
 
 ## Röda linjer i v1 (icke förhandlingsbara)
 
@@ -52,9 +55,32 @@ npm run openapi
   - `validation/` — regler + policy (allvarlighetsgrad per anrop, ej hårdkodad).
   - `script_gen/` — `SqlInsertSelectGenerator` (deterministisk SQL, **körs ej**).
 - **`apps/api/standards/`** — förinlästa **målscheman**: FHIR R4 (9 resurser) + OMOP CDM 5.4 (11 tabeller), laddas vid uppstart.
+- **`apps/showcase/`** — fristående statisk webb (ingen byggkedja, ingen backend): `index.html`
+  (grid + hash-router) + tre `window.kuComponents`-komponenter i `components/`. React/Babel **vendoras**
+  i `vendor/` (Babel v7, classic JSX-runtime) → självförsörjande. Samma komponentkällor driver även
+  presentationsserien. Körs lokalt via valfri http-server, eller dra-och-släpps som ZIP i Netlify.
+- **`deploy/`** — driftpaket för v1 på egen server: `deploy.sh` (klona/bygg), `mappning-api.service`
+  (uvicorn via systemd, port 8010, `--workers 1` pga in-memory state), `nginx-mappning.conf`
+  (lösenordsskyddad subdomän som proxar `/projects` + `/catalog` till API:t). Se `deploy/README.md`.
 
 End-to-end-flöde (användare): skapa projekt → importera källschema → välj målschema → få förslag →
 granska & skapa mappningsversion → validera → exportera artefakt + SQL.
+
+## Publicering (status & beslut, 2026-06-25)
+
+Två separata saker att publicera, med olika vägar:
+
+- **Showcase-webben** — ren statik. Netlify-sajten `kchd-mappning-illustrationer` finns redan i kontot.
+  **Git-koppling i Netlify funkar inte** här: `kchd-se` är en privat GitHub-org och Netlifys GitHub-app
+  kräver org-admin-godkännande. **Filuppladdning från CI/sandlåda blockeras** av nätverkspolicy (403).
+  Fungerande vägar: (a) **dra-och-släpp** ZIP av `apps/showcase/`-innehållet i Netlify (Deploys →
+  drag & drop), eller (b) köra en **enfils-HTML** lokalt (allt inlinat; dubbelklick) — komponenterna
+  laddas via `fetch` så `file://` kräver annars en lokal http-server.
+- **v1-verktyget** — webb + Python-API. Kan **inte** ligga på Netlify (API:t behöver en server). Vägen
+  är `deploy/` på en **egen server** (t.ex. Hetzner), bakom **nginx-lösenord** — vilket samtidigt
+  täcker att v1:s inloggning bara är **simulerad** (roll via header). Driften körs **från servern**
+  (Claude-sessioner saknar SSH/credentials dit; varje session är en ny, isolerad container).
+  Kvar för skarp drift: riktig inloggning + databas (in-memory nollställs vid omstart).
 
 ## Dokumentindex (`docs/`)
 
