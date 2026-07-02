@@ -33,18 +33,29 @@ git push origin live
 
 ~2 min senare är mapping uppdaterad. (Samma mönster som entryscape.)
 
-## Engångs-uppsättning (delar servern)
+## Servern finns redan (delad med katalog)
 
-Görs en gång, från entryscape-repot (det äger serverns livscykel):
+Den delade Hetzner-servern är uppbyggd (`deploy-combined.yml` i entryscape, run #2, 2026-06-25):
+katalog + Caddy (två domäner) + `edge`-nät körs. `mapping.kchd.se` → serverns IP (A-record) är satt.
 
-1. **Sekret:** `HETZNER_SECRET` finns redan i detta repo. Entryscape-repot har
-   `HETZNER_TOKEN` + `RAILWAY_ENTRYSTORE_PW`.
-2. **DNS:** `mapping.kchd.se` → serverns IP (A-record). *(Klart.)*
-3. **Kör** `deploy-combined.yml` i entryscape-repot (bygger om servern: katalog +
-   mapping, katalog återställs från färskaste backupen).
-4. Workflowen skriver ut en **deploy-nyckel** → lägg in den i **detta repo**:
-   Settings → Deploy keys → Add deploy key (read-only räcker).
-5. Skapa `live`-grenen här (`git push origin main:live`). Servern startar mapping ~2 min senare.
+## 🔒 Åtkomst: org-låsningen och den nyckellösa vägen
+
+kchd-se-organisationen blockerar **både deploy-nycklar och personliga SSH-nycklar**, så servern kan
+**inte** SSH-hämta detta privata repo. Deploy sker därför via en **postbuild-hook i entryscape**
+(`server-mapping-hook.mjs`) som klonar detta repo **PUBLIKT över HTTPS (nyckellöst)** och startar stacken.
+
+**Deploy-flöde (öppna → pusha → stäng), enklast från en lokal Claude Code-session:**
+
+```bash
+gh repo edit kchd-se/mapping --visibility public          # 1. öppna tillfälligt
+# i entryscape-repot:
+git push origin main:live                                 # 2. trigga serverns self-update (hooken kör ~2 min)
+curl -s https://mapping.kchd.se/health                    # 3. vänta på {"status":"ok"}
+gh repo edit kchd-se/mapping --visibility private          # 4. stäng igen (mapping fortsätter köra)
+```
+
+`live`-grenen i detta repo finns (= main). Hooken lämnar en körande stack orörd om en framtida
+pull misslyckas (privat) — så privat-igen är säkert.
 
 ## Backup-notis
 
