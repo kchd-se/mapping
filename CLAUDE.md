@@ -117,13 +117,14 @@ katalog.kchd.se (entryscape) — ingen extra serverkostnad, apparna frikopplade.
   `git push origin main:live`.
 - **Server-orkestreringen** (delad Caddy/två domäner, self-update) ligger i entryscape-repot:
   `deploy/combined/` + workflow `deploy-combined.yml`.
-- **🔒 ÅTKOMST — org-låsning:** kchd-se blockerar **deploy-nycklar OCH personliga SSH-nycklar** → servern
-  kan **inte** SSH-hämta detta privata repo. Deploy-fetch sker därför via entryscapes postbuild-hook
-  `server-mapping-hook.mjs` som klonar detta repo **PUBLIKT (HTTPS, nyckellöst)**. Deploy = **öppna→pusha→stäng**:
-  `gh repo edit kchd-se/mapping --visibility public` → i entryscape `git push origin main:live` (servern kör
-  hooken ~2 min → mapping upp) → verifiera `https://mapping.kchd.se/health` → `gh repo edit kchd-se/mapping
-  --visibility private`. Mapping fortsätter köra även när privat igen. (Enklast att köra från en **lokal**
-  Claude Code-session — den kan toggla synlighet + pusha.)
+- **✅ ÅTKOMST LÖST (2026-07-02) — deploy-nyckel.** Grundorsaken var att kchd-se (ny org) hade **deploy-nycklar
+  avstängda som standard** (GitHub GA okt-2024) → "Disabled by kchd-se". **Fixat:** org-ägaren slog på
+  Org → Settings → Security → **Deploy keys → Enabled** och lade serverns nyckel i **detta repo → Settings →
+  Deploy keys** (read-only). Serverns cron (`update_mapping()` i entryscapes cloud-init) SSH-klonar detta repo
+  var 2:e min → bygger + startar stacken automatiskt. **Deploy = `git push origin main:live` här** (servern
+  hämtar via nyckeln; repot kan vara **privat**). Varje server-recreate ger ny nyckel som måste läggas in igen.
+- **ℹ️ Överflödig workaround:** entryscapes `server-mapping-hook.mjs` (publik-HTTPS-klon) byggdes innan
+  deploy-nyckeln löstes — inte längre nödvändig, men ofarlig (guardad). Ignorera.
 
 ## Arbetssätt i det här repot
 

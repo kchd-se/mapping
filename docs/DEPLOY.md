@@ -38,24 +38,32 @@ git push origin live
 Den delade Hetzner-servern är uppbyggd (`deploy-combined.yml` i entryscape, run #2, 2026-06-25):
 katalog + Caddy (två domäner) + `edge`-nät körs. `mapping.kchd.se` → serverns IP (A-record) är satt.
 
-## 🔒 Åtkomst: org-låsningen och den nyckellösa vägen
+## ✅ Åtkomst (LÖST 2026-07-02): deploy-nyckel
 
-kchd-se-organisationen blockerar **både deploy-nycklar och personliga SSH-nycklar**, så servern kan
-**inte** SSH-hämta detta privata repo. Deploy sker därför via en **postbuild-hook i entryscape**
-(`server-mapping-hook.mjs`) som klonar detta repo **PUBLIKT över HTTPS (nyckellöst)** och startar stacken.
+**Grundorsaken** till allt strul: kchd-se är en ny org, och GitHub stänger av **deploy-nycklar som
+standard** för nya orgar (GA okt-2024) → "Disabled by kchd-se". Servern kunde därför inte SSH-hämta
+detta privata repo.
 
-**Deploy-flöde (öppna → pusha → stäng), enklast från en lokal Claude Code-session:**
+**Fixat en gång för alla** (org-ägaren):
+1. Org → Settings → **Security → Deploy keys → Enabled** (`github.com/organizations/kchd-se/settings/deploy_keys`).
+2. La serverns publika nyckel (från `deploy-combined.yml`-körningens Summary) i **detta repo →
+   Settings → Deploy keys** (read-only).
+
+Serverns cron (`update_mapping()` i entryscapes `deploy/combined/cloud-init.combined.yml`) SSH-klonar
+detta repo var 2:e minut och bygger/startar stacken automatiskt. Repot kan vara **privat**.
+
+**Deploy framöver = git push:**
 
 ```bash
-gh repo edit kchd-se/mapping --visibility public          # 1. öppna tillfälligt
-# i entryscape-repot:
-git push origin main:live                                 # 2. trigga serverns self-update (hooken kör ~2 min)
-curl -s https://mapping.kchd.se/health                    # 3. vänta på {"status":"ok"}
-gh repo edit kchd-se/mapping --visibility private          # 4. stäng igen (mapping fortsätter köra)
+git push origin main:live          # servern hämtar via deploy-nyckeln, bygger om ~2-6 min
+curl -s https://mapping.kchd.se/health   # → {"status":"ok"}
 ```
 
-`live`-grenen i detta repo finns (= main). Hooken lämnar en körande stack orörd om en framtida
-pull misslyckas (privat) — så privat-igen är säkert.
+> **⚠️ Vid server-recreate** (`deploy-combined.yml`) genereras en NY deploy-nyckel → lägg in den nya
+> i detta repos Deploy keys igen.
+>
+> **ℹ️ Överflödig workaround:** entryscapes `server-mapping-hook.mjs` (publik-HTTPS-klon) byggdes innan
+> deploy-nyckeln löstes. Behövs inte längre men är ofarlig (guardad). Ignorera / städa i egen entryscape-PR.
 
 ## Backup-notis
 
