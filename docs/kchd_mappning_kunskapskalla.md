@@ -63,6 +63,10 @@ Datakatalogen är en sökbar uppslagsbok som beskriver vilken data som finns, va
 
 Modellen är substratoberoende genom design. Koden körs i regionens egen miljö och resultatet skickas till den centrala noden. Det spelar ingen roll om en region kör Denodo och SSIS, som i kataraktpiloten, eller en kommersiell CDR, så länge miljön uppfyller det kontrakt som specificerar vad en region måste leverera. Hävstången ligger i kontraktet, inte i leverantörsvalet. Så länge specifikationen ägs gemensamt genom KCHD och NSG är en region som uppfyller kontraktet en fullvärdig deltagare oavsett underliggande plattform.
 
+### 10b. Styrplanet — den tvärgående kontrollen
+
+Utöver dataflödet vilar målbilden på ett styrplan: den tvärgående kontroll som avgör vem som får göra vad, hur ett mappningsbeslut versioneras och godkänns, och hur det kan bevisas i efterhand. Rollstyrning, versionshantering med granskningsflöde (jämför Organiks flöde i del 6), proveniens och audit per beslut, och en valideringspolicy där allvarlighetsgraden sätts medvetet snarare än hårdkodas — allt detta hör hit. Ett federerat system med flera regioner och flera mottagare behöver styrplanet mer än en enskild manuell mappning gör, eftersom en mappning som ska gälla nationellt måste kunna godkännas av rätt roll, versioneras när ett kodverk byts, och redovisa proveniens för Socialstyrelsen och EHDS. V1-verktyget har redan prototypat delar av detta plan — roller, projekt, versioner, audit och policy — och att namnge det som en egen dimension gör målbilden fullständigare snarare än att lägga till något nytt krav. Gap-analysen utvecklar detta i avsnitt 4b (`kchd-vision-vs-build.md`).
+
 ---
 
 ## Del II — Den bevisade grunden: vad kataraktpiloten visade

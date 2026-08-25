@@ -66,6 +66,12 @@ npm run openapi
 End-to-end-flöde (användare): skapa projekt → importera källschema → välj målschema → få förslag →
 granska & skapa mappningsversion → validera → exportera artefakt + SQL.
 
+> **Insikt — två plan (byggt vs. målbild):** jämförelsen delas i *dataplanet* (pass · kunskapslager ·
+> lagring · federation — där målbilden är den större och bygget en delmängd) och *styrplanet* (roller ·
+> version/godkänn · audit/proveniens · valideringspolicy — där bygget tvärtom **föregår** målbilden och
+> har prototypat kontroll som en federerad nationell tjänst behöver). Se `docs/kchd-vision-vs-build.md`
+> §4b och kunskapskällan §10b.
+
 ## Publicering (status & beslut, 2026-06-25)
 
 Två separata saker att publicera, med olika vägar:
@@ -88,7 +94,7 @@ Två separata saker att publicera, med olika vägar:
 |---|---|
 | `kchd_mappning_kunskapskalla.md` | Konsoliderad kunskapskälla: målbilden, den bevisade grunden (kataraktpiloten), terminologi. |
 | `kchd_mappning_plan.md` | Färdvägen i fyra spår (A–D), bockas av löpande. |
-| `kchd-vision-vs-build.md` | Gap- och konvergensanalys: byggt verktyg ↔ målbild, med filhänvisningar. |
+| `kchd-vision-vs-build.md` | Gap- och konvergensanalys: byggt verktyg ↔ målbild, med filhänvisningar. Inkl. **styrplanet** (§4b) — roller/version/audit/policy som en under-ritad dimension av målbilden. |
 | `flode-byggt-vs-malbild.md` | Pedagogisk, illustrationsfärdig jämförelse av de två flödena + diagram (`docs/img/`). |
 | `ppt-1-poc-fhir-mappning.md` | Manus, presentation 1 (POC/kataraktpiloten). |
 | `ppt-2-helheten-malbild.md` | Manus, presentation 2 (hela maskinen / målbilden). |
