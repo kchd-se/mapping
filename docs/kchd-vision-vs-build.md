@@ -99,6 +99,34 @@ människan i loopen. Spår A (pilotens luckor), Spår B (organisatoriska föruts
 
 ---
 
+## 4b. Styrplanet — där det byggda föregår målbilden
+
+De två föregående listorna jämför **dataplanet**: pass, kunskapslager, lagring, federation. På det
+planet är målbilden den större och verktyget en delmängd. Men det finns ett andra plan som målbilden
+*förutsätter men inte ritar ut*, och som verktyget tvärtom har gjort konkret: **styrplanet** — den
+tvärgående kontroll som avgör vem som får göra vad, hur ett mappningsbeslut versioneras och godkänns,
+och hur det kan bevisas i efterhand.
+
+| Styrfunktion i bygget | Fil | Status i målbilden |
+|---|---|---|
+| Roller/RBAC (viewer/analyst/approver/admin) | [`apps/api/deps.py`](../apps/api/deps.py) (X-User-Id/X-User-Role) | **Inte utritad.** Simulerad i v1, men konceptet saknas i målbildstexten. |
+| Projekt som arbetsenhet | [`packages/core/models/mapping_version.py`](../packages/core/models/mapping_version.py) m.fl. | Implicit. |
+| Version + granska/godkänn-flöde | `mapping_version.py` | Finns som *Organiks* versionsflöde (kunskapskällan §6, plan-spår B1) — men inte som en motor-nära funktion. |
+| Audit/proveniens per beslut | [`packages/core/models/audit_event.py`](../packages/core/models/audit_event.py) | Finns som lärsubstrat/proveniens (C3) — inte som ett genomgående kontrollager. |
+| Valideringspolicy per anrop | [`packages/validation/`](../packages/validation/) | **Saknas i målbilden.** |
+
+Poängen är att styrplanet behövs **mer** i målbilden än i v1, inte mindre: ett federerat,
+fler-regioners, fler-mottagares system måste kunna svara på vem som godkänner en mappning som ska
+gälla nationellt, hur den versioneras när ett kodverk byts, och hur proveniens bevisas för
+Socialstyrelsen och EHDS. Verktyget har i praktiken **prototypat den kontroll som målbilden behöver
+men ännu inte namnger**. Att lyfta in styrplanet som en egen dimension gör målbilden ärligare — och
+ger bygget en roll bortom "delmängd av Spår C".
+
+**Källtrogen avgränsning:** RBAC är *simulerad* (roll via header), tillståndet är in-memory och
+adaptrarna mest stubbar. Det är konceptet — inte implementationsmognaden — som är målbildsvärt.
+
+---
+
 ## 5. Insikter och konvergens-hävstänger (prioriterat)
 
 Det här är de konkreta stegen som flyttar verktyget mot målbilden, ordnade efter hävstång:
@@ -130,6 +158,11 @@ Det här är de konkreta stegen som flyttar verktyget mot målbilden, ordnade ef
    schema-/registeruppslag, men målbildens Datakatalog gör mer: lineage källa→OMOP, GSIM-export och
    HealthDCAT-AP-beskrivningar. Detta bör dokumenteras som en *medveten* avgränsning, inte ett glömt
    krav, och läggas på en framtida väg snarare än v1.
+
+6. **Lyft in styrplanet som en egen dimension av målbilden (se 4b).** Roller, versionering,
+   godkännande, audit/proveniens och valideringspolicy finns redan i bygget men saknas i målbildens
+   bild. Namnge det som ett tvärgående kontrollplan under motorn och de fyra passen — ett federerat
+   nationellt system behöver det mer än ett en-användar-v1. Additivt; bryter inga röda linjer.
 
 ---
 
